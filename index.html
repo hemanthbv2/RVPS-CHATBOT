@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RV Public School — Chat Assistant</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <div class="bg-gradient" id="bgGradient"></div>
+  <div class="chat-page active" id="chatPage">
+    <div class="chat-header">
+      <div class="header-info">
+        <h2 id="chatSchoolName">RV Public School</h2>
+        <div class="status"><span class="dot"></span> <span id="chatStatus">Online · Typically replies instantly</span></div>
+      </div>
+      <div class="header-actions">
+        <button id="clearChatBtn" title="Clear chat">🗑️</button>
+      </div>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="chat-container" id="chatContainer"></div>
+    </div>
+    <div class="chat-input-area">
+      <div class="chat-input-wrapper">
+        <input type="text" id="chatInput" placeholder="Type a message…" autocomplete="off" />
+        <button class="send-btn" id="sendBtn" title="Send">↑</button>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
