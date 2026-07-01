@@ -1067,3 +1067,9 @@ if (('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) && mi
 document.querySelectorAll('.suggestion-chip').forEach(c => c.addEventListener('click', () => {
     handleInput(c.dataset.query);
 }));
+
+
+// ── Initialize Chatbot ──
+document.addEventListener('DOMContentLoaded', () => {
+    openChat('rvps');
+});
