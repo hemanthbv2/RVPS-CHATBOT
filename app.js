@@ -384,6 +384,10 @@ function buildTree(s) {
         message: `💰 *Fee Structure — RVPS*\n\nFee Office Hours:\n🕐 Weekdays: 10:00 AM – 1:00 PM\n🕐 Saturday: 10:30 AM – 12:30 PM\n\n📞 ${s.phone}\n📧 ${s.email}`,
         options: [backOption],
       },
+      principal: {
+        message: `👨‍💼 *Management — RV Public School*\n\nPresident: ${s.management.president}\nChairman: ${s.management.chairman}`,
+        options: [backOption],
+      },
       contact: {
         message: `📞 *Contact — RVPS*\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 ${s.website}\n\n🕐 Mon–Fri: 8:45 AM – 4:30 PM\n🕐 Sat: 10:30 AM – 1:00 PM\n\n📘 Facebook: @rvps.co.in\n📸 Instagram: @rvps_official`,
         options: [backOption],
@@ -477,6 +481,10 @@ function buildTree(s) {
         message: `💰 *Fee Structure — RVGHS*\n\nFor fee details, please contact:\n\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}\n\n🕐 ${s.officeHours}`,
         options: [backOption],
       },
+      principal: {
+        message: `👨‍🏫 *Headmaster — RVGHS*\n\n${s.headmaster}`,
+        options: [backOption],
+      },
       contact: {
         message: `📞 *Contact — RVGHS*\n\n📍 ${s.address}\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}\n🌐 ${s.website}\n\n🕐 ${s.officeHours}`,
         options: [backOption],
@@ -492,7 +500,8 @@ function buildTree(s) {
 
 const KEYWORD_MAP = [
   { keywords: ['admission', 'apply', 'enroll', 'registration', 'join', 'seat'], node: 'admissions' },
-  { keywords: ['about', 'history', 'founded', 'mission', 'vision', 'who', 'principal', 'headmaster', 'management', 'director', 'head'], node: 'about' },
+  { keywords: ['about', 'history', 'founded', 'mission', 'vision', 'who'], node: 'about' },
+  { keywords: ['principal', 'princi', 'headmaster', 'management', 'director', 'head'], node: 'principal' },
   { keywords: ['fee', 'fees', 'cost', 'price', 'payment', 'amount'], node: 'fees' },
   { keywords: ['contact', 'phone', 'email', 'address', 'location', 'reach', 'where', 'map', 'direction'], node: 'contact' },
   { keywords: ['academic', 'subject', 'syllabus', 'curriculum', 'board', 'study'], node: 'academics' },
