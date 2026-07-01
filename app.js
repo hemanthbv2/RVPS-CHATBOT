@@ -794,8 +794,8 @@ chatInput.addEventListener('keydown', (e) => {
 
 // Keyboard shortcut: Escape to go back
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && chatPage.classList.contains('active')) {
-    closeChat();
+  if (e.key === 'Escape' && chatWidget.classList.contains('active')) {
+    chatWidget.classList.remove('active');
   }
 });
 
