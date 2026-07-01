@@ -608,13 +608,13 @@ const msgObserver = new MutationObserver(() => saveState());
 
 
 
-const selectorPage = $('#selectorPage');
-const chatPage = $('#chatPage');
+const chatWidget = $('#chatWidget');
+const chatLauncher = $('#chatLauncher');
+const closeChatBtn = $('#closeChatBtn');
 const chatContainer = $('#chatContainer');
 const chatBody = $('#chatBody');
 const chatInput = $('#chatInput');
 const sendBtn = $('#sendBtn');
-const backBtn = $('#backBtn');
 const clearChatBtn = $('#clearChatBtn');
 const chatSchoolName = $('#chatSchoolName');
 const bgGradient = $('#bgGradient');
@@ -675,8 +675,7 @@ function openChat(schoolId) {
       return;
   }
 
-  chatPage.classList.add('active');
-  selectorPage.style.display = 'none';
+  chatWidget.classList.add('active');
 
   // Send welcome after brief delay
   setTimeout(() => {
@@ -686,13 +685,7 @@ function openChat(schoolId) {
 
 // ── Close chat ──
 function closeChat() {
-  chatPage.classList.remove('active');
-  setTimeout(() => {
-    selectorPage.style.display = '';
-    chatContainer.innerHTML = '';
-    currentSchool = null;
-    currentTree = null;
-  }, 500);
+  chatWidget.classList.remove('active');
 }
 
 // ── Format message text ──
@@ -947,8 +940,21 @@ $$('.school-card').forEach(card => {
   });
 });
 
-// Back button
-backBtn.addEventListener('click', closeChat);
+
+// Chat launcher clicks
+if (chatLauncher) {
+  chatLauncher.addEventListener('click', () => {
+    chatWidget.classList.add('active');
+  });
+}
+
+// Close chat button clicks
+if (closeChatBtn) {
+  closeChatBtn.addEventListener('click', () => {
+    chatWidget.classList.remove('active');
+  });
+}
+
 
 // Clear chat
 clearChatBtn.addEventListener('click', () => {
@@ -974,7 +980,7 @@ chatInput.addEventListener('keydown', (e) => {
 
 // Keyboard shortcut: Escape to go back
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && chatPage.classList.contains('active')) {
+  if (e.key === 'Escape' && chatWidget.classList.contains('active')) {
     closeChat();
   }
 });
