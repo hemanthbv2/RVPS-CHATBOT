@@ -726,6 +726,7 @@ function createQuickReplies(options) {
     const btn = document.createElement('button');
     btn.className = 'quick-reply-btn';
     btn.textContent = opt.label;
+    btn.dataset.node = opt.node;
     btn.addEventListener('click', () => {
       const action = btn.dataset.node;
       if (action) {
