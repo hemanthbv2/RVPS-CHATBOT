@@ -492,7 +492,7 @@ function buildTree(s) {
 
 const KEYWORD_MAP = [
   { keywords: ['admission', 'apply', 'enroll', 'registration', 'join', 'seat'], node: 'admissions' },
-  { keywords: ['about', 'history', 'founded', 'mission', 'vision', 'who'], node: 'about' },
+  { keywords: ['about', 'history', 'founded', 'mission', 'vision', 'who', 'principal', 'headmaster', 'management', 'director', 'head'], node: 'about' },
   { keywords: ['fee', 'fees', 'cost', 'price', 'payment', 'amount'], node: 'fees' },
   { keywords: ['contact', 'phone', 'email', 'address', 'location', 'reach', 'where', 'map', 'direction'], node: 'contact' },
   { keywords: ['academic', 'subject', 'syllabus', 'curriculum', 'board', 'study'], node: 'academics' },
