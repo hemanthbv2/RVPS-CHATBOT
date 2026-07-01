@@ -534,7 +534,20 @@ let currentSchool = null;
 let currentTree = null;
 
 
-const chatPage = $('#chatPage');
+
+
+const chatWidget = $('#chatWidget');
+const chatLauncher = $('#chatLauncher');
+const closeChatBtn = $('#closeChatBtn');
+
+chatLauncher.addEventListener('click', () => {
+  chatWidget.classList.toggle('active');
+});
+
+closeChatBtn.addEventListener('click', () => {
+  chatWidget.classList.remove('active');
+});
+
 const chatContainer = $('#chatContainer');
 const chatBody = $('#chatBody');
 const chatInput = $('#chatInput');
@@ -556,10 +569,10 @@ function setAccent(school) {
 function openChat(schoolId) {
   currentSchool = SCHOOLS[schoolId];
   currentTree = buildTree(currentSchool);
-  setAccent(currentSchool);
+  
   chatSchoolName.textContent = currentSchool.name;
   chatContainer.innerHTML = '';
-  chatPage.classList.add('active');
+  
   
 
   // Send welcome after brief delay
