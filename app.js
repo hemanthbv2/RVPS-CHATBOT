@@ -498,8 +498,7 @@ function checkModeration(input) {
     const lower = input.toLowerCase();
     const isBlocked = (list) => {
         for (const word of list) {
-            const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\// ──────────────────────────────────────────────
-//  KEYWORD MATCHING');
+            const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp('(?:^|\\s)' + escaped + '(?=\\s|$|[?!.])', 'i');
             if (regex.test(lower)) return true;
         }
