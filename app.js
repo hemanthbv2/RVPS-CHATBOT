@@ -384,10 +384,6 @@ function buildTree(s) {
         message: `💰 *Fee Structure — RVPS*\n\nFee Office Hours:\n🕐 Weekdays: 10:00 AM – 1:00 PM\n🕐 Saturday: 10:30 AM – 12:30 PM\n\n📞 ${s.phone}\n📧 ${s.email}`,
         options: [backOption],
       },
-      principal: {
-        message: `👨‍💼 *Management — RV Public School*\n\nPresident: ${s.management.president}\nChairman: ${s.management.chairman}`,
-        options: [backOption],
-      },
       contact: {
         message: `📞 *Contact — RVPS*\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 ${s.website}\n\n🕐 Mon–Fri: 8:45 AM – 4:30 PM\n🕐 Sat: 10:30 AM – 1:00 PM\n\n📘 Facebook: @rvps.co.in\n📸 Instagram: @rvps_official`,
         options: [backOption],
@@ -481,10 +477,6 @@ function buildTree(s) {
         message: `💰 *Fee Structure — RVGHS*\n\nFor fee details, please contact:\n\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}\n\n🕐 ${s.officeHours}`,
         options: [backOption],
       },
-      principal: {
-        message: `👨‍🏫 *Headmaster — RVGHS*\n\n${s.headmaster}`,
-        options: [backOption],
-      },
       contact: {
         message: `📞 *Contact — RVGHS*\n\n📍 ${s.address}\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}\n🌐 ${s.website}\n\n🕐 ${s.officeHours}`,
         options: [backOption],
@@ -528,12 +520,23 @@ function getModerationResponse(type) {
     return responses[type];
 }
 
-/* =============== LOGGING (For Dashboard) =============== */
 function logInteraction(type, content) {
+    if (!currentSchool) return;
     const logs = JSON.parse(localStorage.getItem('chat_logs') || '[]');
     logs.push({ timestamp: new Date().toISOString(), type, content, school: currentSchool.id });
     if(logs.length > 500) logs.shift();
     localStorage.setItem('chat_logs', JSON.stringify(logs));
+}
+
+function matchKeywordsMultiple(text, tree) {
+  const lower = text.toLowerCase().trim();
+  let matches = [];
+  for (const entry of KEYWORD_MAP) {
+    if (entry.keywords.some(kw => lower.includes(kw))) {
+      if (tree[entry.node] && !matches.includes(entry.node)) matches.push(entry.node);
+    }
+  }
+  return matches;
 }
 
 // ──────────────────────────────────────────────
@@ -543,7 +546,6 @@ function logInteraction(type, content) {
 const KEYWORD_MAP = [
   { keywords: ['admission', 'apply', 'enroll', 'registration', 'join', 'seat'], node: 'admissions' },
   { keywords: ['about', 'history', 'founded', 'mission', 'vision', 'who'], node: 'about' },
-  { keywords: ['principal', 'princi', 'headmaster', 'management', 'director', 'head'], node: 'principal' },
   { keywords: ['fee', 'fees', 'cost', 'price', 'payment', 'amount'], node: 'fees' },
   { keywords: ['contact', 'phone', 'email', 'address', 'location', 'reach', 'where', 'map', 'direction'], node: 'contact' },
   { keywords: ['academic', 'subject', 'syllabus', 'curriculum', 'board', 'study'], node: 'academics' },
@@ -585,25 +587,35 @@ let currentSchool = null;
 let currentTree = null;
 
 
+/* =============== SAFE STORAGE & SESSION =============== */
+let SESSION = { navStack: [], pendingOverflows: [] };
+let chatOpen = false;
+
+const SafeStorage = {
+    mem: {},
+    setItem: function(k, v) { try { localStorage.setItem(k, v); } catch(e) { this.mem[k] = v; } },
+    getItem: function(k) { try { return localStorage.getItem(k) || this.mem[k]; } catch(e) { return this.mem[k]; } },
+    removeItem: function(k) { try { localStorage.removeItem(k); } catch(e) { delete this.mem[k]; } }
+};
+
+function saveState() {
+    if (!currentSchool) return;
+    SafeStorage.setItem(currentSchool.id + '_chat_html', chatContainer.innerHTML);
+    SafeStorage.setItem(currentSchool.id + '_chat_time', Date.now().toString());
+    SafeStorage.setItem(currentSchool.id + '_navStack', JSON.stringify(SESSION.navStack));
+}
+
+const msgObserver = new MutationObserver(() => saveState());
 
 
-const chatWidget = $('#chatWidget');
-const chatLauncher = $('#chatLauncher');
-const closeChatBtn = $('#closeChatBtn');
 
-chatLauncher.addEventListener('click', () => {
-  chatWidget.classList.toggle('active');
-});
-
-closeChatBtn.addEventListener('click', () => {
-  chatWidget.classList.remove('active');
-});
-
+const selectorPage = $('#selectorPage');
+const chatPage = $('#chatPage');
 const chatContainer = $('#chatContainer');
 const chatBody = $('#chatBody');
 const chatInput = $('#chatInput');
 const sendBtn = $('#sendBtn');
-
+const backBtn = $('#backBtn');
 const clearChatBtn = $('#clearChatBtn');
 const chatSchoolName = $('#chatSchoolName');
 const bgGradient = $('#bgGradient');
@@ -620,15 +632,242 @@ function setAccent(school) {
 function openChat(schoolId) {
   currentSchool = SCHOOLS[schoolId];
   currentTree = buildTree(currentSchool);
-  
+  setAccent(currentSchool);
   chatSchoolName.textContent = currentSchool.name;
   chatContainer.innerHTML = '';
-  
-  
+
+  // Restore State
+  const time = SafeStorage.getItem(schoolId + '_chat_time');
+  let savedHtml = null;
+  // 2 hours expiry
+  if (time && (Date.now() - parseInt(time) > 7200000)) {
+      SafeStorage.removeItem(schoolId + '_chat_html');
+      SafeStorage.removeItem(schoolId + '_chat_time');
+      SafeStorage.removeItem(schoolId + '_navStack');
+  } else {
+      savedHtml = SafeStorage.getItem(schoolId + '_chat_html');
+      try {
+          const savedNav = SafeStorage.getItem(schoolId + '_navStack');
+          if (savedNav) SESSION.navStack = JSON.parse(savedNav);
+      } catch(e){}
+  }
+
+  msgObserver.observe(chatContainer, { childList: true, subtree: true });
+
+  if (savedHtml && savedHtml.trim().length > 0) {
+      chatContainer.innerHTML = savedHtml;
+      // Rebind buttons
+      chatContainer.querySelectorAll('.quick-reply-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+      const action = btn.dataset.node;
+      if (action) {
+        addUserMessage(btn.textContent.replace('⬅️ ', '').replace('👉 Also answer: ', ''));
+        if (action === '_back') {
+            SESSION.navStack.pop();
+            const prevId = SESSION.navStack[SESSION.navStack.length - 1] || 'menu';
+            sendBotMessage(prevId, true);
+        } else {
+            sendBotMessage(action);
+        }
+      }
+    });
+      });
+      scrollToBottom();
+      return;
+  }
+
+  chatPage.classList.add('active');
+  selectorPage.style.display = 'none';
 
   // Send welcome after brief delay
   setTimeout(() => {
-    logInteraction('user_message', text);
+    sendBotMessage('welcome');
+  }, 400);
+}
+
+// ── Close chat ──
+function closeChat() {
+  chatPage.classList.remove('active');
+  setTimeout(() => {
+    selectorPage.style.display = '';
+    chatContainer.innerHTML = '';
+    currentSchool = null;
+    currentTree = null;
+  }, 500);
+}
+
+// ── Format message text ──
+function formatText(text) {
+  // Bold: *text*
+  let formatted = text.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
+  // Links
+  formatted = formatted.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  // Newlines
+  formatted = formatted.replace(/\n/g, '<br>');
+  return formatted;
+}
+
+// ── Create message element ──
+function createMessage(text, type) {
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `message ${type}`;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.textContent = type === 'bot' ? currentSchool.icon : '👤';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.innerHTML = formatText(text);
+
+  msgDiv.appendChild(avatar);
+  msgDiv.appendChild(bubble);
+  return msgDiv;
+}
+
+// ── Create quick replies ──
+function createQuickReplies(options) {
+  const container = document.createElement('div');
+  container.className = 'quick-replies';
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quick-reply-btn';
+    btn.textContent = opt.label;
+    btn.addEventListener('click', () => {
+      const action = btn.dataset.node;
+      if (action) {
+        addUserMessage(btn.textContent.replace('⬅️ ', '').replace('👉 Also answer: ', ''));
+        if (action === '_back') {
+            SESSION.navStack.pop();
+            const prevId = SESSION.navStack[SESSION.navStack.length - 1] || 'menu';
+            sendBotMessage(prevId, true);
+        } else {
+            sendBotMessage(action);
+        }
+      }
+    });
+    container.appendChild(btn);
+  });
+
+  return container;
+}
+
+// ── Create typing indicator ──
+function createTypingIndicator() {
+  const div = document.createElement('div');
+  div.className = 'typing-indicator';
+  div.id = 'typingIndicator';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.textContent = currentSchool ? currentSchool.icon : '🤖';
+
+  const dots = document.createElement('div');
+  dots.className = 'dots';
+  dots.innerHTML = '<span></span><span></span><span></span>';
+
+  div.appendChild(avatar);
+  div.appendChild(dots);
+  return div;
+}
+
+// ── Add user message ──
+function addUserMessage(text) {
+  const msg = createMessage(text, 'user');
+  chatContainer.appendChild(msg);
+  scrollToBottom();
+}
+
+// ── Send bot message by node ──
+
+function sendBotMessage(nodeId, isBack = false) {
+  const node = currentTree[nodeId];
+  if (!node) return;
+
+  // Handle pending Overflows
+  if (SESSION.pendingOverflows && SESSION.pendingOverflows.length > 0) {
+      const idx = SESSION.pendingOverflows.indexOf(nodeId);
+      if (idx !== -1) SESSION.pendingOverflows.splice(idx, 1);
+  }
+
+  // Update NavStack
+  if (!isBack && nodeId !== 'menu') {
+      if (SESSION.navStack.length === 0 || SESSION.navStack[SESSION.navStack.length - 1] !== nodeId) {
+          SESSION.navStack.push(nodeId);
+          if (SESSION.navStack.length > 10) SESSION.navStack.shift();
+      }
+  }
+
+  const typing = createTypingIndicator();
+  chatContainer.appendChild(typing);
+  scrollToBottom();
+
+  const delay = Math.min(400 + node.message.length * 2, 1200);
+  setTimeout(() => {
+    typing.remove();
+
+    const msg = createMessage(node.message, 'bot');
+    chatContainer.appendChild(msg);
+    logInteraction('bot_message', node.message);
+
+    let options = node.options ? [...node.options] : [];
+
+    // Inject Pending Overflows
+    if (SESSION.pendingOverflows && SESSION.pendingOverflows.length > 0) {
+        SESSION.pendingOverflows.slice(0, 3).forEach(overflowId => {
+            let label = overflowId.charAt(0).toUpperCase() + overflowId.slice(1);
+            options.push({ label: '👉 Also answer: ' + label, node: overflowId });
+        });
+    }
+
+    // Inject Back Button if navigating deep
+    if (!isBack && SESSION.navStack.length > 1 && nodeId !== 'menu') {
+        options.push({ label: '⬅️ Back', node: '_back' });
+    }
+
+    if (options.length > 0) {
+      const qr = createQuickReplies(options);
+      chatContainer.appendChild(qr);
+    } else {
+      // If it's a terminal node (no options), add Feedback buttons
+      const fb = document.createElement('div');
+      fb.className = 'feedback-btns';
+      fb.style.cssText = 'display:flex; gap:10px; padding: 10px 16px; margin-top: -10px; margin-bottom: 15px;';
+      fb.innerHTML = `
+          <span style="font-size:12px; color:var(--text-light); margin-right:5px; align-self:center;">Helpful?</span>
+          <button style="background:transparent; border:1px solid var(--border-color); border-radius:15px; padding:4px 10px; cursor:pointer;" onclick="logInteraction('feedback', 'positive'); this.parentElement.innerHTML='<span style=\'font-size:12px; color:var(--text-light);\'>Thanks for the feedback! ✅</span>'">👍</button>
+          <button style="background:transparent; border:1px solid var(--border-color); border-radius:15px; padding:4px 10px; cursor:pointer;" onclick="logInteraction('feedback', 'negative'); this.parentElement.innerHTML='<span style=\'font-size:12px; color:var(--text-light);\'>Thanks for the feedback! ❌</span>'">👎</button>
+      `;
+      chatContainer.appendChild(fb);
+    }
+
+    scrollToBottom();
+  }, delay);
+}
+
+
+// ── Scroll to bottom ──
+function scrollToBottom() {
+  requestAnimationFrame(() => {
+    chatBody.scrollTo({
+      top: chatBody.scrollHeight,
+      behavior: 'smooth',
+    });
+  });
+}
+
+// ── Handle free-text input ──
+
+function handleInput(forcedText) {
+  const text = forcedText || chatInput.value.trim();
+  if (!text) return;
+
+  chatInput.value = '';
+  addUserMessage(text);
+  logInteraction('user_message', text);
+
+  setTimeout(() => {
     const mod = checkModeration(text);
     if (mod.blocked) {
       const typing = createTypingIndicator();
@@ -643,11 +882,17 @@ function openChat(schoolId) {
       }, 600);
       return;
     }
-    // Try keyword matching
-    const matchedNode = matchKeyword(text, currentTree);
+
+    const matches = matchKeywordsMultiple(text, currentTree);
+    let matchedNode = matches.length > 0 ? matches[0] : null;
+
+    if (matches.length > 1) {
+        SESSION.pendingOverflows = matches.slice(1);
+    } else {
+        SESSION.pendingOverflows = [];
+    }
 
     if (matchedNode === '_thanks') {
-      // Special thanks response
       const typing = createTypingIndicator();
       chatContainer.appendChild(typing);
       scrollToBottom();
@@ -662,7 +907,6 @@ function openChat(schoolId) {
     } else if (matchedNode) {
       sendBotMessage(matchedNode);
     } else {
-      // Fallback
       const typing = createTypingIndicator();
       chatContainer.appendChild(typing);
       scrollToBottom();
@@ -691,20 +935,29 @@ function openChat(schoolId) {
 }
 
 
+
 // ──────────────────────────────────────────────
 //  EVENT LISTENERS
 // ──────────────────────────────────────────────
 
 // School card clicks
-
+$$('.school-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const schoolId = card.dataset.school;
+    openChat(schoolId);
+  });
+});
 
 // Back button
-
+backBtn.addEventListener('click', closeChat);
 
 // Clear chat
 clearChatBtn.addEventListener('click', () => {
   if (currentTree) {
     chatContainer.innerHTML = '';
+    SESSION.navStack = [];
+    SESSION.pendingOverflows = [];
+    SafeStorage.removeItem(currentSchool.id + '_chat_html');
     setTimeout(() => sendBotMessage('welcome'), 300);
   }
 });
@@ -722,15 +975,9 @@ chatInput.addEventListener('keydown', (e) => {
 
 // Keyboard shortcut: Escape to go back
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && chatWidget.classList.contains('active')) {
-    chatWidget.classList.remove('active');
+  if (e.key === 'Escape' && chatPage.classList.contains('active')) {
+    closeChat();
   }
-});
-
-
-// Initialize chat for RV Public School
-document.addEventListener('DOMContentLoaded', () => {
-  openChat('rvps');
 });
 
 
@@ -746,28 +993,30 @@ const POPULAR_QUERIES = [
     "What is the address?"
 ];
 
-chatInput.addEventListener('input', (e) => {
-    if (!typeahead) return;
-    const val = e.target.value.toLowerCase().trim();
-    if (val.length < 2) {
-        typeahead.classList.add('hidden');
-        return;
-    }
-    const matches = POPULAR_QUERIES.filter(q => q.toLowerCase().includes(val)).slice(0, 4);
-    if (matches.length === 0) {
-        typeahead.classList.add('hidden');
-        return;
-    }
-    typeahead.innerHTML = matches.map(m => `<div class="typeahead-item">${m}</div>`).join('');
-    typeahead.classList.remove('hidden');
-    typeahead.querySelectorAll('.typeahead-item').forEach(item => {
-        item.addEventListener('click', () => {
-            chatInput.value = item.innerText;
+if (chatInput) {
+    chatInput.addEventListener('input', (e) => {
+        if (!typeahead) return;
+        const val = e.target.value.toLowerCase().trim();
+        if (val.length < 2) {
             typeahead.classList.add('hidden');
-            handleInput(item.innerText);
+            return;
+        }
+        const matches = POPULAR_QUERIES.filter(q => q.toLowerCase().includes(val)).slice(0, 4);
+        if (matches.length === 0) {
+            typeahead.classList.add('hidden');
+            return;
+        }
+        typeahead.innerHTML = matches.map(m => `<div class="typeahead-item">${m}</div>`).join('');
+        typeahead.classList.remove('hidden');
+        typeahead.querySelectorAll('.typeahead-item').forEach(item => {
+            item.addEventListener('click', () => {
+                chatInput.value = item.innerText;
+                typeahead.classList.add('hidden');
+                handleInput(item.innerText);
+            });
         });
     });
-});
+}
 document.addEventListener('click', (e) => {
     if (typeahead && !typeahead.contains(e.target) && e.target !== chatInput) typeahead.classList.add('hidden');
 });
