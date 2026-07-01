@@ -494,6 +494,48 @@ function buildTree(s) {
 }
 
 
+
+/* =============== CONTENT MODERATION =============== */
+const BLOCKED = {
+    abusive: ['fuck','shit','ass','bitch','bastard','damn','dick','pussy','slut','whore','stupid','idiot','dumb','moron','retard','crap','screw you','shut up','suck','hate you','loser','trash','worthless','ugly','go to hell','kill','murder','rape','abuse','harass','molest','stalk','threat','bomb','attack','terror','drug','weed','cocaine','heroin','alcohol','drunk','smoke','gambling','porn','sex','nude','naked','obscene','vulgar','profanity','racist','sexist','bigot','wtf','stfu','lmao','lmfao','bloody'],
+    conspiracy: ['illuminati','flat earth','reptilian','chemtrail','5g cause','qanon','deep state','new world order','fake moon','area 51','aliens control','government mind control','covid fake','vaccine microchip','bill gates chip','controlled demolition','pizza gate','fake news media','rigged election','brainwash','propaganda','freemason','secret society','population control','depopulation','mk ultra'],
+    private: ['student phone number','personal number','private email','home address','student address','teacher address','salary of','faculty salary','personal data','student marks','result of','cgpa of','gpa of','marks of','percentage of','private detail','confidential','password','bank detail','account number','aadhaar','pan card','dob of','date of birth of','caste of','religion of','family of','father of','mother of','girlfriend','boyfriend','relationship','married','wife of','husband of','someone\'s phone','whatsapp number','instagram id','social media of','facebook of']
+};
+
+function checkModeration(input) {
+    const lower = input.toLowerCase();
+    const isBlocked = (list) => {
+        for (const word of list) {
+            const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\// ──────────────────────────────────────────────
+//  KEYWORD MATCHING');
+            const regex = new RegExp('(?:^|\\s)' + escaped + '(?=\\s|$|[?!.])', 'i');
+            if (regex.test(lower)) return true;
+        }
+        return false;
+    };
+    if (isBlocked(BLOCKED.abusive)) return { blocked: true, type: 'abusive' };
+    if (isBlocked(BLOCKED.conspiracy)) return { blocked: true, type: 'conspiracy' };
+    if (isBlocked(BLOCKED.private)) return { blocked: true, type: 'private' };
+    return { blocked: false };
+}
+
+function getModerationResponse(type) {
+    const responses = {
+        abusive: "⚠️ I'm unable to respond to inappropriate or offensive language. Please keep our conversation respectful. I'm here to help you with genuine school queries.",
+        conspiracy: "⚠️ I'm designed to provide factual information about the school only. I cannot engage with conspiracy theories or unverified claims.",
+        private: "⚠️ I cannot share personal or confidential information about students, faculty, or staff. This includes contact details, marks, or personal data."
+    };
+    return responses[type];
+}
+
+/* =============== LOGGING (For Dashboard) =============== */
+function logInteraction(type, content) {
+    const logs = JSON.parse(localStorage.getItem('chat_logs') || '[]');
+    logs.push({ timestamp: new Date().toISOString(), type, content, school: currentSchool.id });
+    if(logs.length > 500) logs.shift();
+    localStorage.setItem('chat_logs', JSON.stringify(logs));
+}
+
 // ──────────────────────────────────────────────
 //  KEYWORD MATCHING (free-text input)
 // ──────────────────────────────────────────────
@@ -586,144 +628,21 @@ function openChat(schoolId) {
 
   // Send welcome after brief delay
   setTimeout(() => {
-    sendBotMessage('welcome');
-  }, 400);
-}
-
-// ── Close chat ──
-function closeChat() {}
-
-// ── Format message text ──
-function formatText(text) {
-  // Bold: *text*
-  let formatted = text.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
-  // Links
-  formatted = formatted.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-  // Newlines
-  formatted = formatted.replace(/\n/g, '<br>');
-  return formatted;
-}
-
-// ── Create message element ──
-function createMessage(text, type) {
-  const msgDiv = document.createElement('div');
-  msgDiv.className = `message ${type}`;
-
-  const avatar = document.createElement('div');
-  avatar.className = 'avatar';
-  avatar.textContent = type === 'bot' ? currentSchool.icon : '👤';
-
-  const bubble = document.createElement('div');
-  bubble.className = 'bubble';
-  bubble.innerHTML = formatText(text);
-
-  msgDiv.appendChild(avatar);
-  msgDiv.appendChild(bubble);
-  return msgDiv;
-}
-
-// ── Create quick replies ──
-function createQuickReplies(options) {
-  const container = document.createElement('div');
-  container.className = 'quick-replies';
-
-  options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'quick-reply-btn';
-    btn.textContent = opt.label;
-    btn.addEventListener('click', () => {
-      // Disable all quick replies
-      container.querySelectorAll('.quick-reply-btn').forEach(b => b.classList.add('active'));
-
-      // Show user message
-      addUserMessage(opt.label);
-
-      // Navigate to node
+    logInteraction('user_message', text);
+    const mod = checkModeration(text);
+    if (mod.blocked) {
+      const typing = createTypingIndicator();
+      chatContainer.appendChild(typing);
+      scrollToBottom();
       setTimeout(() => {
-        sendBotMessage(opt.node);
-      }, 300);
-    });
-    container.appendChild(btn);
-  });
-
-  return container;
-}
-
-// ── Create typing indicator ──
-function createTypingIndicator() {
-  const div = document.createElement('div');
-  div.className = 'typing-indicator';
-  div.id = 'typingIndicator';
-
-  const avatar = document.createElement('div');
-  avatar.className = 'avatar';
-  avatar.textContent = currentSchool ? currentSchool.icon : '🤖';
-
-  const dots = document.createElement('div');
-  dots.className = 'dots';
-  dots.innerHTML = '<span></span><span></span><span></span>';
-
-  div.appendChild(avatar);
-  div.appendChild(dots);
-  return div;
-}
-
-// ── Add user message ──
-function addUserMessage(text) {
-  const msg = createMessage(text, 'user');
-  chatContainer.appendChild(msg);
-  scrollToBottom();
-}
-
-// ── Send bot message by node ──
-function sendBotMessage(nodeId) {
-  const node = currentTree[nodeId];
-  if (!node) return;
-
-  // Show typing indicator
-  const typing = createTypingIndicator();
-  chatContainer.appendChild(typing);
-  scrollToBottom();
-
-  // Simulate typing delay
-  const delay = Math.min(400 + node.message.length * 2, 1200);
-  setTimeout(() => {
-    // Remove typing indicator
-    typing.remove();
-
-    // Add bot message
-    const msg = createMessage(node.message, 'bot');
-    chatContainer.appendChild(msg);
-
-    // Add quick replies
-    if (node.options && node.options.length > 0) {
-      const qr = createQuickReplies(node.options);
-      chatContainer.appendChild(qr);
+        typing.remove();
+        const msg = createMessage(getModerationResponse(mod.type), 'bot');
+        chatContainer.appendChild(msg);
+        logInteraction('bot_message', 'MODERATION_BLOCKED');
+        scrollToBottom();
+      }, 600);
+      return;
     }
-
-    scrollToBottom();
-  }, delay);
-}
-
-// ── Scroll to bottom ──
-function scrollToBottom() {
-  requestAnimationFrame(() => {
-    chatBody.scrollTo({
-      top: chatBody.scrollHeight,
-      behavior: 'smooth',
-    });
-  });
-}
-
-// ── Handle free-text input ──
-function handleInput() {
-  const text = chatInput.value.trim();
-  if (!text) return;
-
-  chatInput.value = '';
-  addUserMessage(text);
-
-  setTimeout(() => {
     // Try keyword matching
     const matchedNode = matchKeyword(text, currentTree);
 
@@ -813,3 +732,84 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   openChat('rvps');
 });
+
+
+// TYPEAHEAD SUGGESTIONS
+const typeahead = document.getElementById('typeahead');
+const POPULAR_QUERIES = [
+    "Tell me about the admissions",
+    "What is the fee structure?",
+    "Who is the principal?",
+    "What are the school timings?",
+    "Do you have school buses?",
+    "Is there a mid-day meal?",
+    "What is the address?"
+];
+
+chatInput.addEventListener('input', (e) => {
+    if (!typeahead) return;
+    const val = e.target.value.toLowerCase().trim();
+    if (val.length < 2) {
+        typeahead.classList.add('hidden');
+        return;
+    }
+    const matches = POPULAR_QUERIES.filter(q => q.toLowerCase().includes(val)).slice(0, 4);
+    if (matches.length === 0) {
+        typeahead.classList.add('hidden');
+        return;
+    }
+    typeahead.innerHTML = matches.map(m => `<div class="typeahead-item">${m}</div>`).join('');
+    typeahead.classList.remove('hidden');
+    typeahead.querySelectorAll('.typeahead-item').forEach(item => {
+        item.addEventListener('click', () => {
+            chatInput.value = item.innerText;
+            typeahead.classList.add('hidden');
+            handleInput(item.innerText);
+        });
+    });
+});
+document.addEventListener('click', (e) => {
+    if (typeahead && !typeahead.contains(e.target) && e.target !== chatInput) typeahead.classList.add('hidden');
+});
+
+// VOICE RECOGNITION
+const micBtn = document.getElementById('micBtn');
+let recognition;
+if (('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) && micBtn) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+    recognition.onstart = () => {
+        micBtn.classList.add('recording');
+        chatInput.placeholder = "Listening... 🎤";
+    };
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        chatInput.value = transcript;
+        setTimeout(() => handleInput(transcript), 500);
+    };
+    recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        micBtn.classList.remove('recording');
+        chatInput.placeholder = "Type a message…";
+    };
+    recognition.onend = () => {
+        micBtn.classList.remove('recording');
+        chatInput.placeholder = "Type a message…";
+    };
+    micBtn.addEventListener('click', () => {
+        if (micBtn.classList.contains('recording')) recognition.stop();
+        else {
+            try { recognition.start(); } catch(e){}
+        }
+    });
+} else if (micBtn) {
+    micBtn.style.display = 'none'; // Not supported
+}
+
+// QUICK SUGGESTIONS
+document.querySelectorAll('.suggestion-chip').forEach(c => c.addEventListener('click', () => {
+    handleInput(c.dataset.query);
+}));
