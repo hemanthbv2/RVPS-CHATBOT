@@ -191,21 +191,21 @@ function buildTree(s) {
       { label: '🏫 About the School', node: 'about' },
       { label: '📖 Academics', node: 'academics' },
       { label: '🏗️ Facilities', node: 'facilities' },
-      { label: '💰 Fee Structure', node: 'fees' },
       { label: '📞 Contact Us', node: 'contact' },
     ];
     if (schoolId === 'rvps') {
       base.push({ label: '🚌 Transport / Bus', node: 'transport' });
       base.push({ label: '🏆 Toppers', node: 'toppers' });
-      base.push({ label: '👔 Uniform & Timings', node: 'uniform' });
     }
     if (schoolId === 'rvghs') {
+      base.splice(4, 0, { label: '💰 Fee Structure', node: 'fees' });
       base.push({ label: '🍱 Mid-day Meals', node: 'midday' });
       base.push({ label: '🎯 Clubs & Beyond Academics', node: 'clubs' });
       base.push({ label: '📊 Results', node: 'results' });
       base.push({ label: '📅 Academic Calendar', node: 'calendar' });
     }
     if (schoolId === 'rvs') {
+      base.splice(4, 0, { label: '💰 Fee Structure', node: 'fees' });
       base.push({ label: '♿ Inclusive Education', node: 'inclusive' });
     }
     return base;
@@ -374,14 +374,6 @@ function buildTree(s) {
       },
       transport: {
         message: `🚌 *Transport — RVPS*\n\n✅ Yes! RVPS provides *safe bus services* along select routes of South Bangalore.\n\nFor routes & availability, contact:\n📞 ${s.phone}\n📧 ${s.email}`,
-        options: [backOption],
-      },
-      uniform: {
-        message: `👔 *Uniform & Timings — RVPS*\n\n🕐 *School Timings:*\n• Nursery–UKG: ${s.timings.prePrimary}\n• Std 1–10: ${s.timings.primary}\n• PTM: ${s.timings.ptm}\n\n👔 *Uniform:*\n• Mon/Tue/Thu/Fri: ${s.uniform.regular}\n• Wednesday: ${s.uniform.wednesday}\n• Shoes/Socks: ${s.uniform.shoes}\n\n💰 Fee Office: ${s.timings.feeOffice}`,
-        options: [backOption],
-      },
-      fees: {
-        message: `💰 *Fee Structure — RVPS*\n\nFee Office Hours:\n🕐 Weekdays: 10:00 AM – 1:00 PM\n🕐 Saturday: 10:30 AM – 12:30 PM\n\n📞 ${s.phone}\n📧 ${s.email}`,
         options: [backOption],
       },
       contact: {
@@ -991,9 +983,7 @@ document.addEventListener('keydown', (e) => {
 const typeahead = document.getElementById('typeahead');
 const POPULAR_QUERIES = [
     "Tell me about the admissions",
-    "What is the fee structure?",
     "Who is the principal?",
-    "What are the school timings?",
     "Do you have school buses?",
     "Is there a mid-day meal?",
     "What is the address?"
