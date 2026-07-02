@@ -456,10 +456,41 @@ function getModerationResponse(type) {
 
 function logInteraction(type, content) {
     if (!currentSchool) return;
-    const logs = JSON.parse(localStorage.getItem('chat_logs') || '[]');
-    logs.push({ timestamp: new Date().toISOString(), type, content, school: currentSchool.id });
-    if(logs.length > 500) logs.shift();
-    localStorage.setItem('chat_logs', JSON.stringify(logs));
+    const logs = JSON.parse(localStorage.getItem('rvce_standalone_logs') || '[]');
+    
+    let sid = sessionStorage.getItem('chat_session_id');
+    if (!sid) {
+        sid = 'sid_' + Math.random().toString(36).substr(2, 9);
+        sessionStorage.setItem('chat_session_id', sid);
+    }
+
+    let t = 'message';
+    let i = 'unmatched';
+    let q = content;
+
+    if (type === 'user_message') {
+        t = 'message';
+        i = 'user_input';
+    } else if (type === 'bot_message') {
+        t = 'interaction';
+        i = 'bot_reply';
+        q = '[Bot Reply] ' + (content.length > 40 ? content.substring(0, 40) + '...' : content);
+    } else if (type === 'feedback') {
+        t = 'interaction';
+        i = 'feedback_' + content;
+        q = '[Feedback] ' + content;
+    }
+
+    logs.push({ 
+        s: sid, 
+        q: q, 
+        i: i, 
+        d: new Date().toISOString(), 
+        t: t 
+    });
+
+    if(logs.length > 1000) logs.shift();
+    localStorage.setItem('rvce_standalone_logs', JSON.stringify(logs));
 }
 
 function matchKeywordsMultiple(text, tree) {
