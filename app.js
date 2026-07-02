@@ -217,44 +217,31 @@ function buildTree(s) {
   if (s.id === 'rvs') {
     return {
       welcome: {
-        message: `👋 Welcome to *RV School*!\n\n🏫 State Board | Est. 2018\n📍 Tata Silk Farm, Bengaluru\n👩‍🏫 Principal: ${s.principal}\n\nHow can I help you today?`,
+        message: `👋 Welcome to RV School!\n\nHow can I help you today?`,
         options: mainMenuOptions('rvs'),
       },
       menu: {
-        message: `What else would you like to know about *RV School*?`,
+        message: `What else would you like to know about RV School?`,
         options: mainMenuOptions('rvs'),
       },
       admissions: {
-        message: `📚 *Admissions — RV School*\n\nWhich level are you seeking admission for?`,
+        message: `📚 Admissions\n\nWe offer Primary & Secondary School admissions.\n\n🔗 [Apply Online](${s.admissionLink})`,
         options: [
-          { label: '📖 Primary School', node: 'adm_details' },
-          { label: '📘 Secondary School', node: 'adm_details' },
-          backOption,
-        ],
-      },
-      adm_details: {
-        message: `📋 *Admission Info*\n\nRV School follows Karnataka State Board syllabus (English Medium).\n\n✅ Board: State Board\n✅ Recognized by: Govt. of Karnataka\n✅ Campus: 2 acres\n\nAdmissions are processed via the RVEI SAP Portal.\n\nWhat would you like to do?`,
-        options: [
-          { label: '🔗 Apply Online (SAP Portal)', node: 'adm_apply' },
-          { label: '🏫 Book a Campus Visit', node: 'adm_visit' },
-          { label: '📞 Call Admissions', node: 'adm_call' },
+          { label: '🔗 Apply Now', node: 'adm_apply' },
+          { label: '📞 Contact Us', node: 'adm_call' },
           backOption,
         ],
       },
       adm_apply: {
-        message: `🔗 *Apply Online*\n\nYou can apply via the RVEI SAP Admission Portal:\n👉 ${s.admissionLink}\n\nKeep your child's documents ready before starting.`,
-        options: [backOption],
-      },
-      adm_visit: {
-        message: `🏫 *Campus Visit*\n\nTo schedule a campus visit, please contact:\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}\n\nOur team will arrange a convenient time for you.`,
+        message: `🔗 Apply Online via the RVEI SAP Portal:\n👉 ${s.admissionLink}`,
         options: [backOption],
       },
       adm_call: {
-        message: `📞 *Admissions Contact*\n\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}`,
+        message: `📞 Admissions Contact\n\n📞 ${s.phone}\n📧 ${s.email}`,
         options: [backOption],
       },
       about: {
-        message: `🏫 *About RV School*\n\nRV School is part of RV Educational Institutions (RVEI) under the Rashtreeya Sikshana Samithi Trust (RSST).\n\n📌 Est. 2018 | State Board | English Medium\n📌 2-acre campus at Tata Silk Farm\n📌 28 institutions under RVEI\n📌 Legacy of 80+ years (founded by Sri M.C. Sivananda Sarma)\n\n🎯 Mission: "Holistic development of every child"\n🎯 Motto: "Excellence in education with societal commitment"\n\n♿ *Special*: Inclusive education for children with hearing impairment\n\nWhat else?`,
+        message: `🏫 About RV School\n\nEstablished in 2018, RV School is a State Board institution focused on holistic development.`,
         options: [
           { label: '👥 Management', node: 'management' },
           { label: '♿ Inclusive Education', node: 'inclusive' },
@@ -262,31 +249,27 @@ function buildTree(s) {
         ],
       },
       management: {
-        message: `👥 *Management*\n\n🏛️ President (RVEI): ${s.management.president}\n🏛️ Hon. Secretary: ${s.management.secretary}\n\nMore details: ${s.website}/management2/`,
+        message: `👥 Management\n\nPresident: ${s.management.president}\nSecretary: ${s.management.secretary}`,
         options: [backOption],
       },
       inclusive: {
-        message: `♿ *Inclusive Education*\n\nRV School specifically supports *special children with hearing impairment*.\n\nInclusive education is a core commitment — every child deserves quality education.\n\nWant to learn more?`,
-        options: [
-          { label: '📞 Contact Admissions', node: 'adm_call' },
-          { label: '🏫 Visit Campus', node: 'adm_visit' },
-          backOption,
-        ],
+        message: `♿ Inclusive Education\n\nWe provide inclusive education, specially supporting children with hearing impairment.`,
+        options: [backOption],
       },
       academics: {
-        message: `📖 *Academics — RV School*\n\n✅ Board: Karnataka State Board\n✅ Medium: English\n✅ Levels: Primary & Secondary\n\n🎨 Programs offered:\n• Art & Craft\n• Music & Dance\n• Physical Education\n\nRecognized by Govt. of Karnataka.`,
+        message: `📖 Academics\n\nWe follow the Karnataka State Board syllabus in English medium.`,
         options: [backOption],
       },
       facilities: {
-        message: `🏗️ *Facilities — RV School*\n\n${s.facilities.map(f => '• ' + f).join('\n')}\n\n🍽️ Food Court available on campus\n🏊 Splash Pool for younger students\n🎭 Amphitheater for performances\n♿ Elevator access`,
+        message: `🏗️ Facilities\n\nWe provide smart classrooms, labs, a food court, and an amphitheater.`,
         options: [backOption],
       },
       fees: {
-        message: `💰 *Fee Structure*\n\nFor fee details for the current academic year, please contact the school office:\n\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}`,
+        message: `💰 Fee Structure\n\nPlease contact our office for current fee details:\n📞 ${s.phone}`,
         options: [backOption],
       },
       contact: {
-        message: `📞 *Contact — RV School*\n\n📍 ${s.address}\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}\n🌐 ${s.website}\n\n📘 Facebook: facebook.com/RVSchoolEdu\n📸 Instagram: @rvschool_edu`,
+        message: `📞 Contact RV School\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 ${s.website}`,
         options: [backOption],
       },
     };
@@ -296,56 +279,31 @@ function buildTree(s) {
   if (s.id === 'rvps') {
     return {
       welcome: {
-        message: `👋 Welcome to *RV Public School*!\n\n📚 ICSE Board | Est. 2003\n📍 Opp. Lalbagh West Gate, V V Puram\n🏅 British Council ISA Accredited\n📊 ${s.stats.students} Students | ${s.stats.teachers} Teachers\n\nHow can I help you today?`,
+        message: `👋 Welcome to RV Public School (ICSE)!\n\nHow can I help you today?`,
         options: mainMenuOptions('rvps'),
       },
       menu: {
-        message: `What else would you like to know about *RV Public School*?`,
+        message: `What else would you like to know about RVPS?`,
         options: mainMenuOptions('rvps'),
       },
       admissions: {
-        message: `📚 *Admissions — RVPS*\n\nWhich section are you interested in?\n\n🔗 [Visit Admissions Page](${s.website}/admissions/)`,
+        message: `📚 Admissions\n\nWe offer Pre-Primary (Nursery–UKG) to Secondary (Std 8–10) education. Admissions for AY 2026-27 are open!\n\n🔗 [Apply Online](${s.admissionLink})`,
         options: [
-          { label: '🧒 Pre-Primary (Nursery–UKG)', node: 'adm_preprimary' },
-          { label: '📖 Primary (Std 1–7)', node: 'adm_primary' },
-          { label: '📘 Secondary (Std 8–10)', node: 'adm_secondary' },
-          backOption,
-        ],
-      },
-      adm_preprimary: {
-        message: `🧒 *Pre-Primary Admissions*\n\n📋 Nursery, LKG, UKG\n👶 Age: 3 years by June 1 of the academic year\n⏰ Timings: 8:20 AM – 12:15 PM (Mon–Fri)\n\nAdmissions open for 2026-27!\n\n🔗 [Admissions Details](${s.website}/admissions/)`,
-        options: [
-          { label: '🔗 Apply Online', node: 'adm_apply' },
-          { label: '📞 Call Admissions', node: 'adm_call' },
-          backOption,
-        ],
-      },
-      adm_primary: {
-        message: `📖 *Primary Admissions (Std 1–7)*\n\n👦 Std 1: Must be 6 years old by academic year start + completed pre-primary\n📝 Std 2–7: Admission test required\n⏰ Timings: 8:20 AM – 3:15 PM (Mon–Fri)\n\n💻 Computer Science training starts from Class 1!\n\n🔗 [Admissions Details](${s.website}/admissions/)`,
-        options: [
-          { label: '🔗 Apply Online', node: 'adm_apply' },
-          { label: '📞 Call Admissions', node: 'adm_call' },
-          backOption,
-        ],
-      },
-      adm_secondary: {
-        message: `📘 *Secondary Admissions (Std 8–10)*\n\n👦 Std 8: Must be 13 years old + completed Std 7 (seat availability applies)\n⚠️ Std 9: Requires Council approval\n📋 ICSE Board Exams in Std 10\n⏰ Timings: 8:20 AM – 3:15 PM (Mon–Fri)\n\n🔗 [Admissions Details](${s.website}/admissions/)`,
-        options: [
-          { label: '🔗 Apply Online', node: 'adm_apply' },
-          { label: '📞 Call Admissions', node: 'adm_call' },
+          { label: '🔗 Apply Now', node: 'adm_apply' },
+          { label: '📞 Contact Us', node: 'adm_call' },
           backOption,
         ],
       },
       adm_apply: {
-        message: `🔗 *Apply Online*\n\nApply via the RVEI SAP Portal:\n👉 ${s.admissionLink}\n\nAdmissions open for AY 2026-27!\n\n🔗 [Admissions Page](${s.website}/admissions/)`,
+        message: `🔗 Apply Online via the RVEI SAP Portal:\n👉 ${s.admissionLink}`,
         options: [backOption],
       },
       adm_call: {
-        message: `📞 *Admissions Contact*\n\n📞 ${s.phone}\n📧 ${s.email}\n\n🕐 Office: ${s.timings.office}\n\n🔗 [Contact Us](${s.website}/contact-us/)`,
+        message: `📞 Admissions Contact\n\n📞 ${s.phone}\n📧 ${s.email}\n\n🔗 [Contact Page](${s.website}/contact-us/)`,
         options: [backOption],
       },
       about: {
-        message: `🏫 *About RV Public School*\n\nRVPS is an ICSE school under RVEI / RSST Trust.\n\n📌 Est. 2003 | 2-acre campus\n📌 Opp. Lalbagh West Gate, V V Puram\n📌 CISCE (ICSE) Board\n📌 ${s.stats.students} students | ${s.stats.teachers} teachers\n\n🏅 *British Council ISA Award* for Outstanding International Dimension in Curriculum\n\n🎯 Focus: Unlocking the hidden potential of every child\n\n👤 President (RVEI): ${s.management.president}\n👤 Chairman (RVPS): ${s.management.chairman}\n\n🔗 [Read More About Us](${s.website}/about-us/)`,
+        message: `🏫 About RVPS\n\nEstablished in 2003, RVPS is an ICSE school under the RSST Trust, focused on holistic child development.\n\n🔗 [Read More](${s.website}/aboutus/)`,
         options: [
           { label: '🏗️ Facilities', node: 'facilities' },
           { label: '🏆 Toppers', node: 'toppers' },
@@ -353,7 +311,7 @@ function buildTree(s) {
         ],
       },
       academics: {
-        message: `📖 *Academics — RVPS*\n\n✅ Board: ICSE (CISCE)\n✅ Academic Year: June to April\n\n📚 Sections:\n• Pre-Primary: Nursery, LKG, UKG\n• Primary: Std 1–7\n• Secondary: Std 8–10\n\n💻 Computer Science from Class 1\n🎨 Compulsory: Music, Yoga, Dance, Cubs & Bulbuls\n🎖️ NCC (National Cadet Corps)\n🥋 Karate (Indian Shotokan) & Taekwondo\n🧪 Science Olympiad\n\n🔗 [Explore Academics](${s.website}/academics/)`,
+        message: `📖 Academics\n\nWe follow the ICSE (CISCE) curriculum from Nursery to Std 10, blending core subjects with sports and arts.\n\n🔗 [Academics Info](${s.website}/academics/)`,
         options: [
           { label: '🏆 ICSE Toppers', node: 'toppers' },
           { label: '🏠 Houses', node: 'houses' },
@@ -361,23 +319,23 @@ function buildTree(s) {
         ],
       },
       toppers: {
-        message: `🏆 *ICSE Toppers — RVPS*\n\n${s.toppers.map((t, i) => `${['🥇','🥈','🥉','4️⃣','5️⃣'][i]} ${t.name} — ${t.pct}`).join('\n')}\n\n🔗 [See All Achievers](${s.website}/achievements/)`,
+        message: `🏆 Our Top Achievers\n\nOur students consistently excel in ICSE board exams.\n\n🔗 [Academics Info](${s.website}/academics/)`,
         options: [backOption],
       },
       houses: {
-        message: `🏠 *Houses — RVPS*\n\n${s.houses.map(h => '🏛️ ' + h).join('\n')}\n\nStudents wear house-coloured T-shirts on Wednesdays!\nInter-house competitions in Art, Craft, Sports & Music.\n\n🔗 [Student Life](${s.website}/student-life/)`,
+        message: `🏠 Houses\n\nStudents participate in inter-house competitions (Charaka, Aryabhatta, Bhaskara, Sushrutha) to build teamwork.\n\n🔗 [Campus Life](${s.website}/campus-life/)`,
         options: [backOption],
       },
       facilities: {
-        message: `🏗️ *Facilities — RVPS*\n\n${s.facilities.map(f => '• ' + f).join('\n')}\n\n🏋️ Sports Partner: *Leapstart* fitness organisation\n🏏 Cricket, Basketball, Volleyball\n🎥 Virtual Tour: ${s.virtualTour}\n\n🔗 [View Infrastructure](${s.website}/infrastructure/)`,
+        message: `🏗️ Facilities\n\nWe provide modern labs, a digitized library, a vast playground, and an auditorium.\n\n🔗 [Campus Life](${s.website}/campus-life/)`,
         options: [backOption],
       },
       transport: {
-        message: `🚌 *Transport — RVPS*\n\n✅ Yes! RVPS provides *safe bus services* along select routes of South Bangalore.\n\nFor routes & availability, contact:\n📞 ${s.phone}\n📧 ${s.email}\n\n🔗 [Transport Info](${s.website}/transport/)`,
+        message: `🚌 Transport\n\nWe offer safe bus services along select routes in South Bangalore.\n\n🔗 [Campus Life](${s.website}/campus-life/)`,
         options: [backOption],
       },
       contact: {
-        message: `📞 *Contact — RVPS*\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 ${s.website}\n\n🕐 Mon–Fri: 8:45 AM – 4:30 PM\n🕐 Sat: 10:30 AM – 1:00 PM\n\n📘 Facebook: @rvps.co.in\n📸 Instagram: @rvps_official\n\n🔗 [Contact Page](${s.website}/contact-us/)`,
+        message: `📞 Contact RVPS\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n\n🔗 [Contact Page](${s.website}/contact-us/)`,
         options: [backOption],
       },
     };
@@ -387,43 +345,31 @@ function buildTree(s) {
   if (s.id === 'rvghs') {
     return {
       welcome: {
-        message: `👋 Welcome to *RV Girls High School*!\n\n👩‍🎓 Girls Only | State Board | Since 1962\n📍 Jayanagar, Bengaluru\n👨‍🏫 Headmaster: ${s.headmaster}\n👧 ${s.students} Students\n\n💎 Diamond Jubilee celebrated in 2023!\n\nHow can I help you today?`,
+        message: `👋 Welcome to RV Girls High School!\n\nHow can I help you today?`,
         options: mainMenuOptions('rvghs'),
       },
       menu: {
-        message: `What else would you like to know about *RV Girls High School*?`,
+        message: `What else would you like to know about RVGHS?`,
         options: mainMenuOptions('rvghs'),
       },
       admissions: {
-        message: `📚 *Admissions — RVGHS*\n\nRVGHS welcomes girls to be part of a nurturing and enriching academic environment. Admission is simple and hassle-free.\n\nWhat would you like to know?`,
+        message: `📚 Admissions\n\nRVGHS welcomes girls to be part of a nurturing academic environment.`,
         options: [
           { label: '📋 Required Documents', node: 'adm_docs' },
-          { label: '📥 Download Brochure', node: 'adm_brochure' },
           { label: '📞 Contact Admissions', node: 'adm_call' },
           backOption,
         ],
       },
       adm_docs: {
-        message: `📋 *Required Admission Documents:*\n\n${s.admissionDocs.map((d, i) => `${i+1}. ${d}`).join('\n')}\n\n⚠️ If transferring from Central to State syllabus, DDPI Permission Order is also required.`,
-        options: [
-          { label: '📥 Download Brochure', node: 'adm_brochure' },
-          { label: '📞 Contact Admissions', node: 'adm_call' },
-          backOption,
-        ],
-      },
-      adm_brochure: {
-        message: `📥 *Download Brochure*\n\n👉 ${s.brochure}\n\nThis PDF contains complete admission information for the current academic year.`,
-        options: [
-          { label: '📞 Contact Admissions', node: 'adm_call' },
-          backOption,
-        ],
+        message: `📋 Required Documents:\n\n${s.admissionDocs.map((d, i) => `${i+1}. ${d}`).join('\n')}`,
+        options: [backOption],
       },
       adm_call: {
-        message: `📞 *Admissions Contact*\n\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}\n\n🕐 ${s.officeHours}`,
+        message: `📞 Admissions Contact\n\n📞 ${s.phone}\n📧 ${s.email}`,
         options: [backOption],
       },
       about: {
-        message: `🏫 *About RVGHS*\n\nFounded on *7th June 1962* with just 25 girls, RVGHS now shelters ~400 students.\n\n📌 Karnataka State Board | Girls Only\n📌 Part of RVEI (28 institutions)\n📌 Founded by Sri M.C. Sivananda Sarma\n📌 First HM: Sri K. Nanjundaswamy (1962–1988)\n\n🎯 *Mission:* Educating and empowering women to lead\n\n💎 Golden Jubilee: 2011 ("Suvarna Sinchana")\n💎 Diamond Jubilee: 2023 ("Vajra Vibha")`,
+        message: `🏫 About RVGHS\n\nFounded in 1962, RVGHS is a State Board school dedicated to educating and empowering women.`,
         options: [
           { label: '🎓 Alumni Network', node: 'alumni' },
           { label: '❤️ Donate', node: 'donate' },
@@ -431,46 +377,43 @@ function buildTree(s) {
         ],
       },
       alumni: {
-        message: `🎓 *Alumni Network*\n\nConnect with fellow RV'ians on AlmaConnect:\n👉 ${s.alumniPortal}`,
+        message: `🎓 Alumni Network\n\nConnect on AlmaConnect: ${s.alumniPortal}`,
         options: [backOption],
       },
       donate: {
-        message: `❤️ *Support Girls' Education*\n\nDonate to help shape the future:\n👉 ${s.donateLink}`,
+        message: `❤️ Donate\n\nSupport girls' education: ${s.donateLink}`,
         options: [backOption],
       },
       academics: {
-        message: `📖 *Academics — RVGHS*\n\n✅ Board: Karnataka State Board\n\n🗣️ *Language Sections:*\n• Section A: Sanskrit / Kannada / English\n• Section B: English / Kannada / Sanskrit\n• Section C: Kannada / English / Hindi\n\n📚 *Core:* Maths, Science, Social Science\n🎨 *Co-curricular:* PE, Craft & SUPW, Computer Ed\n\n🏆 *Competitive Exam Coaching:*\n${s.competitiveExams}`,
+        message: `📖 Academics\n\nWe offer Karnataka State Board syllabus with multiple language sections.`,
         options: [backOption],
       },
       midday: {
-        message: `🍱 *Mid-day Meal Program — RVGHS*\n\n✅ Yes! RVGHS provides Government mid-day meals:\n\n🍱 *Akshaya Patra Foundation* provides nutritious meals including milk or ragi malt.\n\n🥚 *Daily Supplementary Nutritious Food (SNF)* provided by Azim Premji Foundation + Dept. of Education — eggs, chikki, or bananas every day.\n\nThis ensures every student receives proper nutrition for effective learning! 💪`,
+        message: `🍱 Mid-day Meal\n\nWe provide nutritious Government mid-day meals via Akshaya Patra Foundation.`,
         options: [backOption],
       },
       clubs: {
-        message: `🎯 *Clubs & Beyond Academics — RVGHS*\n\n12 Active Clubs:\n${s.clubs.map(c => '• ' + c).join('\n')}\n\n🎪 *Key Events:*\n${s.events.slice(0, 5).map(e => '• ' + e).join('\n')}\n...and more!\n\nClubs develop leadership, teamwork, and confidence.`,
-        options: [
-          { label: '📅 Academic Calendar', node: 'calendar' },
-          backOption,
-        ],
+        message: `🎯 Clubs\n\nWe have 12 active clubs including Science, Eco, and Literary clubs.`,
+        options: [backOption],
       },
       facilities: {
-        message: `🏗️ *Infrastructure — RVGHS*\n\n${s.facilities.map(f => '• ' + f).join('\n')}\n\n🎭 Auditorium: AC, 500+ seats, professional acoustics\n📺 AV Room: Large projection screen + TV\n💻 Computer Lab: Weekly sessions, internet access\n📚 Library: Weekly book issuance + LCD projector`,
+        message: `🏗️ Facilities\n\nOur campus includes an auditorium, computer lab, and library.`,
         options: [backOption],
       },
       results: {
-        message: `📊 *Results — RVGHS*\n\nDownload result PDFs:\n${s.results.map(r => `📄 ${r.year}: ${r.url}`).join('\n')}`,
+        message: `📊 Results\n\nView results at our school office.`,
         options: [backOption],
       },
       calendar: {
-        message: `📅 *Academic Calendar 2025-26*\n\n${s.academicCalendar.map(c => `📌 ${c.event}: ${c.month}`).join('\n')}`,
+        message: `📅 Calendar\n\nPlease check our website or contact the office for the calendar.`,
         options: [backOption],
       },
       fees: {
-        message: `💰 *Fee Structure — RVGHS*\n\nFor fee details, please contact:\n\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}\n\n🕐 ${s.officeHours}`,
+        message: `💰 Fees\n\nFor fee details, contact:\n📞 ${s.phone}`,
         options: [backOption],
       },
       contact: {
-        message: `📞 *Contact — RVGHS*\n\n📍 ${s.address}\n📞 ${s.phone}\n📱 ${s.mobile}\n📧 ${s.email}\n🌐 ${s.website}\n\n🕐 ${s.officeHours}`,
+        message: `📞 Contact RVGHS\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 ${s.website}`,
         options: [backOption],
       },
     };
