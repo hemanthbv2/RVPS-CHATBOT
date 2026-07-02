@@ -269,7 +269,7 @@ function buildTree(s) {
         options: [backOption],
       },
       contact: {
-        message: `📞 Contact RV School\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 ${s.website}`,
+        message: `📞 Contact RV School\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 [Visit Website](${s.website})`,
         options: [backOption],
       },
     };
@@ -413,7 +413,7 @@ function buildTree(s) {
         options: [backOption],
       },
       contact: {
-        message: `📞 Contact RVGHS\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 ${s.website}`,
+        message: `📞 Contact RVGHS\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 [Visit Website](${s.website})`,
         options: [backOption],
       },
     };
@@ -627,8 +627,13 @@ function closeChat() {
 function formatText(text) {
   // Bold: *text*
   let formatted = text.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
-  // Links
-  formatted = formatted.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  
+  // Markdown links: [Text](URL)
+  formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color: #007bff; text-decoration: none; font-weight: 500;">$1</a>');
+
+  // Bare links (fallback for any remaining physical links not inside markdown or href)
+  formatted = formatted.replace(/(^|[^"'])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener" style="color: #007bff; text-decoration: none; font-weight: 500;">$2</a>');
+
   // Newlines
   formatted = formatted.replace(/\n/g, '<br>');
   return formatted;
