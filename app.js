@@ -304,7 +304,7 @@ function buildTree(s) {
         options: mainMenuOptions('rvps'),
       },
       admissions: {
-        message: `📚 *Admissions — RVPS*\n\nWhich section are you interested in?`,
+        message: `📚 *Admissions — RVPS*\n\nWhich section are you interested in?\n\n🔗 [Visit Admissions Page](${s.website}/admissions/)`,
         options: [
           { label: '🧒 Pre-Primary (Nursery–UKG)', node: 'adm_preprimary' },
           { label: '📖 Primary (Std 1–7)', node: 'adm_primary' },
@@ -313,7 +313,7 @@ function buildTree(s) {
         ],
       },
       adm_preprimary: {
-        message: `🧒 *Pre-Primary Admissions*\n\n📋 Nursery, LKG, UKG\n👶 Age: 3 years by June 1 of the academic year\n⏰ Timings: 8:20 AM – 12:15 PM (Mon–Fri)\n\nAdmissions open for 2026-27!`,
+        message: `🧒 *Pre-Primary Admissions*\n\n📋 Nursery, LKG, UKG\n👶 Age: 3 years by June 1 of the academic year\n⏰ Timings: 8:20 AM – 12:15 PM (Mon–Fri)\n\nAdmissions open for 2026-27!\n\n🔗 [Admissions Details](${s.website}/admissions/)`,
         options: [
           { label: '🔗 Apply Online', node: 'adm_apply' },
           { label: '📞 Call Admissions', node: 'adm_call' },
@@ -321,7 +321,7 @@ function buildTree(s) {
         ],
       },
       adm_primary: {
-        message: `📖 *Primary Admissions (Std 1–7)*\n\n👦 Std 1: Must be 6 years old by academic year start + completed pre-primary\n📝 Std 2–7: Admission test required\n⏰ Timings: 8:20 AM – 3:15 PM (Mon–Fri)\n\n💻 Computer Science training starts from Class 1!`,
+        message: `📖 *Primary Admissions (Std 1–7)*\n\n👦 Std 1: Must be 6 years old by academic year start + completed pre-primary\n📝 Std 2–7: Admission test required\n⏰ Timings: 8:20 AM – 3:15 PM (Mon–Fri)\n\n💻 Computer Science training starts from Class 1!\n\n🔗 [Admissions Details](${s.website}/admissions/)`,
         options: [
           { label: '🔗 Apply Online', node: 'adm_apply' },
           { label: '📞 Call Admissions', node: 'adm_call' },
@@ -329,7 +329,7 @@ function buildTree(s) {
         ],
       },
       adm_secondary: {
-        message: `📘 *Secondary Admissions (Std 8–10)*\n\n👦 Std 8: Must be 13 years old + completed Std 7 (seat availability applies)\n⚠️ Std 9: Requires Council approval\n📋 ICSE Board Exams in Std 10\n⏰ Timings: 8:20 AM – 3:15 PM (Mon–Fri)`,
+        message: `📘 *Secondary Admissions (Std 8–10)*\n\n👦 Std 8: Must be 13 years old + completed Std 7 (seat availability applies)\n⚠️ Std 9: Requires Council approval\n📋 ICSE Board Exams in Std 10\n⏰ Timings: 8:20 AM – 3:15 PM (Mon–Fri)\n\n🔗 [Admissions Details](${s.website}/admissions/)`,
         options: [
           { label: '🔗 Apply Online', node: 'adm_apply' },
           { label: '📞 Call Admissions', node: 'adm_call' },
@@ -337,15 +337,15 @@ function buildTree(s) {
         ],
       },
       adm_apply: {
-        message: `🔗 *Apply Online*\n\nApply via the RVEI SAP Portal:\n👉 ${s.admissionLink}\n\nAdmissions open for AY 2026-27!`,
+        message: `🔗 *Apply Online*\n\nApply via the RVEI SAP Portal:\n👉 ${s.admissionLink}\n\nAdmissions open for AY 2026-27!\n\n🔗 [Admissions Page](${s.website}/admissions/)`,
         options: [backOption],
       },
       adm_call: {
-        message: `📞 *Admissions Contact*\n\n📞 ${s.phone}\n📧 ${s.email}\n\n🕐 Office: ${s.timings.office}`,
+        message: `📞 *Admissions Contact*\n\n📞 ${s.phone}\n📧 ${s.email}\n\n🕐 Office: ${s.timings.office}\n\n🔗 [Contact Us](${s.website}/contact-us/)`,
         options: [backOption],
       },
       about: {
-        message: `🏫 *About RV Public School*\n\nRVPS is an ICSE school under RVEI / RSST Trust.\n\n📌 Est. 2003 | 2-acre campus\n📌 Opp. Lalbagh West Gate, V V Puram\n📌 CISCE (ICSE) Board\n📌 ${s.stats.students} students | ${s.stats.teachers} teachers\n\n🏅 *British Council ISA Award* for Outstanding International Dimension in Curriculum\n\n🎯 Focus: Unlocking the hidden potential of every child\n\n👤 President (RVEI): ${s.management.president}\n👤 Chairman (RVPS): ${s.management.chairman}`,
+        message: `🏫 *About RV Public School*\n\nRVPS is an ICSE school under RVEI / RSST Trust.\n\n📌 Est. 2003 | 2-acre campus\n📌 Opp. Lalbagh West Gate, V V Puram\n📌 CISCE (ICSE) Board\n📌 ${s.stats.students} students | ${s.stats.teachers} teachers\n\n🏅 *British Council ISA Award* for Outstanding International Dimension in Curriculum\n\n🎯 Focus: Unlocking the hidden potential of every child\n\n👤 President (RVEI): ${s.management.president}\n👤 Chairman (RVPS): ${s.management.chairman}\n\n🔗 [Read More About Us](${s.website}/about-us/)`,
         options: [
           { label: '🏗️ Facilities', node: 'facilities' },
           { label: '🏆 Toppers', node: 'toppers' },
@@ -353,7 +353,7 @@ function buildTree(s) {
         ],
       },
       academics: {
-        message: `📖 *Academics — RVPS*\n\n✅ Board: ICSE (CISCE)\n✅ Academic Year: June to April\n\n📚 Sections:\n• Pre-Primary: Nursery, LKG, UKG\n• Primary: Std 1–7\n• Secondary: Std 8–10\n\n💻 Computer Science from Class 1\n🎨 Compulsory: Music, Yoga, Dance, Cubs & Bulbuls\n🎖️ NCC (National Cadet Corps)\n🥋 Karate (Indian Shotokan) & Taekwondo\n🧪 Science Olympiad`,
+        message: `📖 *Academics — RVPS*\n\n✅ Board: ICSE (CISCE)\n✅ Academic Year: June to April\n\n📚 Sections:\n• Pre-Primary: Nursery, LKG, UKG\n• Primary: Std 1–7\n• Secondary: Std 8–10\n\n💻 Computer Science from Class 1\n🎨 Compulsory: Music, Yoga, Dance, Cubs & Bulbuls\n🎖️ NCC (National Cadet Corps)\n🥋 Karate (Indian Shotokan) & Taekwondo\n🧪 Science Olympiad\n\n🔗 [Explore Academics](${s.website}/academics/)`,
         options: [
           { label: '🏆 ICSE Toppers', node: 'toppers' },
           { label: '🏠 Houses', node: 'houses' },
@@ -361,23 +361,23 @@ function buildTree(s) {
         ],
       },
       toppers: {
-        message: `🏆 *ICSE Toppers — RVPS*\n\n${s.toppers.map((t, i) => `${['🥇','🥈','🥉','4️⃣','5️⃣'][i]} ${t.name} — ${t.pct}`).join('\n')}`,
+        message: `🏆 *ICSE Toppers — RVPS*\n\n${s.toppers.map((t, i) => `${['🥇','🥈','🥉','4️⃣','5️⃣'][i]} ${t.name} — ${t.pct}`).join('\n')}\n\n🔗 [See All Achievers](${s.website}/achievements/)`,
         options: [backOption],
       },
       houses: {
-        message: `🏠 *Houses — RVPS*\n\n${s.houses.map(h => '🏛️ ' + h).join('\n')}\n\nStudents wear house-coloured T-shirts on Wednesdays!\nInter-house competitions in Art, Craft, Sports & Music.`,
+        message: `🏠 *Houses — RVPS*\n\n${s.houses.map(h => '🏛️ ' + h).join('\n')}\n\nStudents wear house-coloured T-shirts on Wednesdays!\nInter-house competitions in Art, Craft, Sports & Music.\n\n🔗 [Student Life](${s.website}/student-life/)`,
         options: [backOption],
       },
       facilities: {
-        message: `🏗️ *Facilities — RVPS*\n\n${s.facilities.map(f => '• ' + f).join('\n')}\n\n🏋️ Sports Partner: *Leapstart* fitness organisation\n🏏 Cricket, Basketball, Volleyball\n🎥 Virtual Tour: ${s.virtualTour}`,
+        message: `🏗️ *Facilities — RVPS*\n\n${s.facilities.map(f => '• ' + f).join('\n')}\n\n🏋️ Sports Partner: *Leapstart* fitness organisation\n🏏 Cricket, Basketball, Volleyball\n🎥 Virtual Tour: ${s.virtualTour}\n\n🔗 [View Infrastructure](${s.website}/infrastructure/)`,
         options: [backOption],
       },
       transport: {
-        message: `🚌 *Transport — RVPS*\n\n✅ Yes! RVPS provides *safe bus services* along select routes of South Bangalore.\n\nFor routes & availability, contact:\n📞 ${s.phone}\n📧 ${s.email}`,
+        message: `🚌 *Transport — RVPS*\n\n✅ Yes! RVPS provides *safe bus services* along select routes of South Bangalore.\n\nFor routes & availability, contact:\n📞 ${s.phone}\n📧 ${s.email}\n\n🔗 [Transport Info](${s.website}/transport/)`,
         options: [backOption],
       },
       contact: {
-        message: `📞 *Contact — RVPS*\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 ${s.website}\n\n🕐 Mon–Fri: 8:45 AM – 4:30 PM\n🕐 Sat: 10:30 AM – 1:00 PM\n\n📘 Facebook: @rvps.co.in\n📸 Instagram: @rvps_official`,
+        message: `📞 *Contact — RVPS*\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 ${s.website}\n\n🕐 Mon–Fri: 8:45 AM – 4:30 PM\n🕐 Sat: 10:30 AM – 1:00 PM\n\n📘 Facebook: @rvps.co.in\n📸 Instagram: @rvps_official\n\n🔗 [Contact Page](${s.website}/contact-us/)`,
         options: [backOption],
       },
     };
