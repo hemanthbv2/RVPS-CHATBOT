@@ -644,15 +644,10 @@ function createMessage(text, type) {
   const msgDiv = document.createElement('div');
   msgDiv.className = `message ${type}`;
 
-  const avatar = document.createElement('div');
-  avatar.className = 'avatar';
-  avatar.textContent = type === 'bot' ? currentSchool.icon : '👤';
-
   const bubble = document.createElement('div');
   bubble.className = 'bubble';
   bubble.innerHTML = formatText(text);
 
-  msgDiv.appendChild(avatar);
   msgDiv.appendChild(bubble);
   return msgDiv;
 }
@@ -692,15 +687,10 @@ function createTypingIndicator() {
   div.className = 'typing-indicator';
   div.id = 'typingIndicator';
 
-  const avatar = document.createElement('div');
-  avatar.className = 'avatar';
-  avatar.textContent = currentSchool ? currentSchool.icon : '🤖';
-
   const dots = document.createElement('div');
   dots.className = 'dots';
   dots.innerHTML = '<span></span><span></span><span></span>';
 
-  div.appendChild(avatar);
   div.appendChild(dots);
   return div;
 }
