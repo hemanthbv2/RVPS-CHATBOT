@@ -8,37 +8,6 @@
 // ──────────────────────────────────────────────
 
 const SCHOOLS = {
-  rvs: {
-    id: 'rvs',
-    name: 'RV School',
-    shortName: 'RVS',
-    icon: '🏫',
-    accentVar: '--rvs-accent',
-    accent: '#2E86AB',
-    accentGlow: 'rgba(46, 134, 171, 0.3)',
-    gradient: 'linear-gradient(135deg, #2E86AB, #1a6d91)',
-    board: 'Karnataka State Board',
-    established: '2018',
-    campus: '2 acres, Tata Silk Farm, Bengaluru',
-    grades: 'Primary & Secondary (English Medium)',
-    principal: 'Shakila R. (M.A., B.Ed.)',
-    phone: '080-26768583',
-    mobile: '+91-9036876175',
-    email: 'principal.rvs@rvei.edu.in',
-    address: '#16/17, 3rd Cross, Tata Silk Farm, Bengaluru - 560028',
-    website: 'https://www.rvschool.edu.in',
-    facebook: 'https://www.facebook.com/RVSchoolEdu/',
-    instagram: 'https://www.instagram.com/rvschool_edu/',
-    admissionLink: 'https://wds-prd.rvei.edu.in:4430/sap/bc/ui5_ui5/sap/zrvischoolform/index.html',
-    transport: false,
-    midDayMeal: false,
-    facilities: ['Amphitheater', 'Elevators', 'Food Court', 'Splash Pool', 'Sandpit', 'Enormous Playground'],
-    usps: ['Inclusive education for hearing-impaired children', 'Splash Pool', 'Part of RVEI (80+ year legacy)'],
-    programs: ['Art', 'Craft', 'Music', 'Dance', 'Physical Education'],
-    management: {
-      president: 'Dr. M.P. Shyam',
-      secretary: 'Dr.(h.c). A.V.S. Murthy',
-    },
   },
 
   rvps: {
@@ -105,77 +74,6 @@ const SCHOOLS = {
     },
   },
 
-  rvghs: {
-    id: 'rvghs',
-    name: 'RV Girls High School',
-    shortName: 'RVGHS',
-    icon: '👩‍🎓',
-    accentVar: '--rvghs-accent',
-    accent: '#6F62F0',
-    accentGlow: 'rgba(111, 98, 240, 0.3)',
-    gradient: 'linear-gradient(135deg, #6F62F0, #5a4ed4)',
-    board: 'Karnataka State Board',
-    established: '1962',
-    campus: 'Jayanagar, Bengaluru',
-    grades: 'High School (Girls Only)',
-    headmaster: 'Mr. Devaru Bhat',
-    students: '~400',
-    phone: '080-2657 7792',
-    mobile: '+91-9036876165',
-    email: 'rvghs@rvei.edu.in',
-    address: 'RV Teachers College Building, 15, Ashoka Pillar Road, 2nd Block, Jayanagar, Bengaluru - 560011',
-    website: 'https://rvghs.edu.in',
-    admissionLink: 'https://rvghs.edu.in/admissions/',
-    brochure: 'http://rvghs.edu.in/wp-content/uploads/2025/04/Brochure.pdf',
-    alumniPortal: 'https://rvghs.almaconnect.com/',
-    donateLink: 'https://www.rvinstitutions.com/donate/',
-    transport: false,
-    midDayMeal: true,
-    midDayMealDetails: 'Akshaya Patra Foundation provides nutritious meals (incl. milk/ragi malt). Daily Supplementary Nutritious Food (eggs, chikki, or bananas) provided by Azim Premji Foundation & Department of Education.',
-    ncc: true,
-    officeHours: 'Mon–Fri: 9:00 AM – 4:30 PM | Sat: 9:00 AM – 1:00 PM',
-    facilities: ['Science Laboratory', 'Computer Lab (networked campus)', 'Library (with LCD projector)', 'Audio-Visual Room', 'Sports Room + Playground', 'AC Auditorium (500+ seats)', 'Canteen'],
-    languageSections: {
-      A: { first: 'Sanskrit', second: 'Kannada', third: 'English' },
-      B: { first: 'English', second: 'Kannada', third: 'Sanskrit' },
-      C: { first: 'Kannada', second: 'English', third: 'Hindi' },
-    },
-    coreSubjects: ['Mathematics', 'General Science', 'Social Science'],
-    coCurricular: ['Physical Education', 'Craft & SUPW', 'Computer Education'],
-    clubs: ['Student Union Club', 'Humanities Club', 'Electoral Literacy Club', 'Science Club', 'Sanskrit Club', 'Kannada Sangha', 'Health Club', 'Eco Club', 'NCC', 'Sports Club', 'Bugle Band Set', 'Girl Guide'],
-    competitiveExams: 'NMMS, CHARD GK, Hindi/Sanskrit exams, Ramayana & Mahabharata exams — up to ₹12,000 financial aid',
-    admissionDocs: [
-      'Original SATS Transfer Certificate (with PEN & Aadhaar)',
-      'Passport-size photograph',
-      'Birth Certificate (photocopy)',
-      'Previous class Marks Card (photocopy)',
-      'Bhagyalakshmi Bond (photocopy, if applicable)',
-      'DISE number from previous school',
-      'Caste Certificate (photocopy)',
-      'Parent\'s Income Certificate (photocopy)',
-      'Student & Parents Aadhaar Cards (photocopy)',
-      'Student Bank Passbook front page (photocopy)',
-      'BPL Card (photocopy, if applicable)',
-      'DDPI Permission Order (if Central → State syllabus)',
-    ],
-    academicCalendar: [
-      { event: 'FA 1', month: 'July 2025' },
-      { event: 'FA 2', month: 'August 2025' },
-      { event: 'SA 1', month: 'September 2025' },
-      { event: 'Mid-term Holidays', month: 'Sep 20 – Oct 7, 2025' },
-      { event: 'FA 3', month: 'November 2025' },
-      { event: 'Class 10 Preparatory', month: 'Dec 2025 & Jan 2026' },
-      { event: 'FA 4', month: 'January 2026' },
-      { event: 'SA 2 (Class 8 & 9)', month: 'March 2026' },
-      { event: 'Summer Holidays', month: 'Apr 11 – May 28, 2026' },
-    ],
-    results: [
-      { year: '2024-25', url: 'http://rvghs.edu.in/wp-content/uploads/2025/06/RVGHS-Banner-2024-2025.pdf' },
-      { year: '2023-24', url: 'http://rvghs.edu.in/wp-content/uploads/2025/04/RVGHS-Banner-2023-2024.pdf' },
-      { year: '2022-23', url: 'http://rvghs.edu.in/wp-content/uploads/2025/04/RVGHS-BANNER-2022-2023.pdf' },
-    ],
-    events: ['Annual Day', 'Sports Meet', 'Independence Day', 'Republic Day', 'Children\'s Day', 'Teachers\' Day', 'Kannada Rajyotsava', 'Ganesha Festival (eco-friendly)', 'Gandhi Jayanthi', 'Ambedkar Jayanthi'],
-  },
 };
 
 
@@ -198,83 +96,13 @@ function buildTree(s) {
       base.push({ label: '🏆 Toppers', node: 'toppers' });
       base.push({ label: '❓ FAQs', node: 'faq' });
     }
-    if (schoolId === 'rvghs') {
-      base.splice(4, 0, { label: '💰 Fee Structure', node: 'fees' });
-      base.push({ label: '🍱 Mid-day Meals', node: 'midday' });
-      base.push({ label: '🎯 Clubs & Beyond Academics', node: 'clubs' });
-      base.push({ label: '📊 Results', node: 'results' });
-      base.push({ label: '📅 Academic Calendar', node: 'calendar' });
-    }
-    if (schoolId === 'rvs') {
-      base.splice(4, 0, { label: '💰 Fee Structure', node: 'fees' });
-      base.push({ label: '♿ Inclusive Education', node: 'inclusive' });
-    }
+
     return base;
   };
 
   const backOption = { label: '← Back to Menu', node: 'menu' };
 
-  // ── RV School Tree ──
-  if (s.id === 'rvs') {
-    return {
-      welcome: {
-        message: `👋 Welcome to RV School!\n\nHow can I help you today<i class="ph ph-arrow-left"></i>`,
-        options: mainMenuOptions('rvs'),
-      },
-      menu: {
-        message: `What else would you like to know about RV School<i class="ph ph-arrow-left"></i>`,
-        options: mainMenuOptions('rvs'),
-      },
-      admissions: {
-        message: `📚 Admissions\n\nWe offer Primary & Secondary School admissions.\n\n🔗 [Apply Online](${s.admissionLink})`,
-        options: [
-          { label: '🔗 Apply Now', node: 'adm_apply' },
-          { label: '📞 Contact Us', node: 'adm_call' },
-          backOption,
-        ],
-      },
-      adm_apply: {
-        message: `🔗 Apply Online via the RVEI SAP Portal:\n👉 ${s.admissionLink}`,
-        options: [backOption],
-      },
-      adm_call: {
-        message: `📞 Admissions Contact\n\n📞 ${s.phone}\n📧 ${s.email}`,
-        options: [backOption],
-      },
-      about: {
-        message: `🏫 About RV School\n\nEstablished in 2018, RV School is a State Board institution focused on holistic development.`,
-        options: [
-          { label: '👥 Management', node: 'management' },
-          { label: '♿ Inclusive Education', node: 'inclusive' },
-          backOption,
-        ],
-      },
-      management: {
-        message: `👥 Management\n\nPresident: ${s.management.president}\nSecretary: ${s.management.secretary}`,
-        options: [backOption],
-      },
-      inclusive: {
-        message: `♿ Inclusive Education\n\nWe provide inclusive education, specially supporting children with hearing impairment.`,
-        options: [backOption],
-      },
-      academics: {
-        message: `📖 Academics\n\nWe follow the Karnataka State Board syllabus in English medium.`,
-        options: [backOption],
-      },
-      facilities: {
-        message: `🏗️ Facilities\n\nWe provide smart classrooms, labs, a food court, and an amphitheater.`,
-        options: [backOption],
-      },
-      fees: {
-        message: `💰 Fee Structure\n\nPlease contact our office for current fee details:\n📞 ${s.phone}`,
-        options: [backOption],
-      },
-      contact: {
-        message: `📞 Contact RV School\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 [Visit Website](${s.website})`,
-        options: [backOption],
-      },
-    };
-  }
+
 
   // ── RV Public School Tree ──
   if (s.id === 'rvps') {
@@ -390,83 +218,7 @@ function buildTree(s) {
     };
   }
 
-  // ── RV Girls High School Tree ──
-  if (s.id === 'rvghs') {
-    return {
-      welcome: {
-        message: `👋 Welcome to RV Girls High School!\n\nHow can I help you today<i class="ph ph-arrow-left"></i>`,
-        options: mainMenuOptions('rvghs'),
-      },
-      menu: {
-        message: `What else would you like to know about RVGHS<i class="ph ph-arrow-left"></i>`,
-        options: mainMenuOptions('rvghs'),
-      },
-      admissions: {
-        message: `📚 Admissions\n\nRVGHS welcomes girls to be part of a nurturing academic environment.`,
-        options: [
-          { label: '📋 Required Documents', node: 'adm_docs' },
-          { label: '📞 Contact Admissions', node: 'adm_call' },
-          backOption,
-        ],
-      },
-      adm_docs: {
-        message: `📋 Required Documents:\n\n${s.admissionDocs.map((d, i) => `${i+1}. ${d}`).join('\n')}`,
-        options: [backOption],
-      },
-      adm_call: {
-        message: `📞 Admissions Contact\n\n📞 ${s.phone}\n📧 ${s.email}`,
-        options: [backOption],
-      },
-      about: {
-        message: `🏫 About RVGHS\n\nFounded in 1962, RVGHS is a State Board school dedicated to educating and empowering women.`,
-        options: [
-          { label: '🎓 Alumni Network', node: 'alumni' },
-          { label: '❤️ Donate', node: 'donate' },
-          backOption,
-        ],
-      },
-      alumni: {
-        message: `🎓 Alumni Network\n\nConnect on AlmaConnect: ${s.alumniPortal}`,
-        options: [backOption],
-      },
-      donate: {
-        message: `❤️ Donate\n\nSupport girls' education: ${s.donateLink}`,
-        options: [backOption],
-      },
-      academics: {
-        message: `📖 Academics\n\nWe offer Karnataka State Board syllabus with multiple language sections.`,
-        options: [backOption],
-      },
-      midday: {
-        message: `🍱 Mid-day Meal\n\nWe provide nutritious Government mid-day meals via Akshaya Patra Foundation.`,
-        options: [backOption],
-      },
-      clubs: {
-        message: `🎯 Clubs\n\nWe have 12 active clubs including Science, Eco, and Literary clubs.`,
-        options: [backOption],
-      },
-      facilities: {
-        message: `🏗️ Facilities\n\nOur campus includes an auditorium, computer lab, and library.`,
-        options: [backOption],
-      },
-      results: {
-        message: `📊 Results\n\nView results at our school office.`,
-        options: [backOption],
-      },
-      calendar: {
-        message: `📅 Calendar\n\nPlease check our website or contact the office for the calendar.`,
-        options: [backOption],
-      },
-      fees: {
-        message: `💰 Fees\n\nFor fee details, contact:\n📞 ${s.phone}`,
-        options: [backOption],
-      },
-      contact: {
-        message: `📞 Contact RVGHS\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n🌐 [Visit Website](${s.website})`,
-        options: [backOption],
-      },
-    };
-  }
+
 }
 
 
