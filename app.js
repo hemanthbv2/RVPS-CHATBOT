@@ -196,6 +196,7 @@ function buildTree(s) {
     if (schoolId === 'rvps') {
       base.push({ label: '🚌 Transport / Bus', node: 'transport' });
       base.push({ label: '🏆 Toppers', node: 'toppers' });
+      base.push({ label: '❓ FAQs', node: 'faq' });
     }
     if (schoolId === 'rvghs') {
       base.splice(4, 0, { label: '💰 Fee Structure', node: 'fees' });
@@ -337,6 +338,54 @@ function buildTree(s) {
       contact: {
         message: `📞 Contact RVPS\n\n📍 ${s.address}\n📞 ${s.phone}\n📧 ${s.email}\n\n🔗 [Contact Page](${s.website}/contact-us/)`,
         options: [backOption],
+      },
+      faq: {
+        message: `❓ Frequently Asked Questions\n\nSelect a topic below:`,
+        options: [
+          { label: '📘 What is ICSE?', node: 'faq_icse' },
+          { label: '✅ Benefits of ICSE', node: 'faq_benefits' },
+          { label: '🕐 School Timings', node: 'faq_timings' },
+          { label: '🚌 Transport Info', node: 'faq_transport' },
+          { label: '🥗 Food Policy', node: 'faq_food' },
+          backOption,
+        ],
+      },
+      faq_icse: {
+        message: `📘 What is ICSE?\n\nICSE (Indian Certificate of Secondary Education) is a nationally recognized board conducted by CISCE. It offers a balanced curriculum with equal emphasis on languages, sciences, mathematics, and arts.\n\nRVPS follows the ICSE syllabus from Nursery to Std 10.`,
+        options: [
+          { label: '✅ Benefits of ICSE', node: 'faq_benefits' },
+          { label: '← Back to FAQs', node: 'faq' },
+          backOption,
+        ],
+      },
+      faq_benefits: {
+        message: `✅ Benefits of ICSE\n\n• Comprehensive and well-rounded curriculum\n• Strong focus on English and communication skills\n• Internal assessments and project-based learning\n• Widely accepted by universities in India and abroad\n• Develops analytical thinking and problem-solving`,
+        options: [
+          { label: '📘 What is ICSE?', node: 'faq_icse' },
+          { label: '← Back to FAQs', node: 'faq' },
+          backOption,
+        ],
+      },
+      faq_timings: {
+        message: `🕐 School Timings\n\n🔔 Morning Assembly: 8:00 AM\n📚 Classes: 8:15 AM – 3:15 PM\n\nTimings may vary for pre-primary sections. Please contact the school office for exact details.`,
+        options: [
+          { label: '← Back to FAQs', node: 'faq' },
+          backOption,
+        ],
+      },
+      faq_transport: {
+        message: `🚌 Transport Facilities\n\nRVPS provides safe and reliable bus services covering major routes in South Bangalore. GPS-enabled buses with trained staff ensure student safety.\n\nFor route availability and fees, please contact the school office.\n📞 ${s.phone}`,
+        options: [
+          { label: '← Back to FAQs', node: 'faq' },
+          backOption,
+        ],
+      },
+      faq_food: {
+        message: `🥗 Food Policy\n\n⚠️ Only vegetarian food is allowed on the school campus.\n\nStudents are encouraged to bring home-cooked vegetarian meals. Non-vegetarian food items are strictly not permitted inside the school premises.`,
+        options: [
+          { label: '← Back to FAQs', node: 'faq' },
+          backOption,
+        ],
       },
     };
   }
@@ -519,7 +568,11 @@ const KEYWORD_MAP = [
   { keywords: ['meal', 'lunch', 'food', 'mid-day', 'midday', 'canteen', 'tiffin', 'akshaya'], node: 'midday' },
   { keywords: ['club', 'ncc', 'guide', 'bugle', 'extracurricular', 'extra', 'activity', 'beyond'], node: 'clubs' },
   { keywords: ['result', 'topper', 'marks', 'pass', 'percentage', 'score'], node: 'toppers' },
-  { keywords: ['uniform', 'dress', 'timing', 'time', 'schedule', 'hour', 'when'], node: 'uniform' },
+  { keywords: ['uniform', 'dress', 'timing', 'time', 'schedule', 'hour', 'when'], node: 'faq_timings' },
+  { keywords: ['faq', 'question', 'frequently'], node: 'faq' },
+  { keywords: ['icse', 'board', 'cisce'], node: 'faq_icse' },
+  { keywords: ['benefit', 'advantage', 'why icse'], node: 'faq_benefits' },
+  { keywords: ['food', 'veg', 'vegetarian', 'non-veg', 'meal', 'lunch'], node: 'faq_food' },
   { keywords: ['calendar', 'holiday', 'exam', 'assessment', 'fa', 'sa'], node: 'calendar' },
   { keywords: ['inclusive', 'hearing', 'impair', 'disability', 'special'], node: 'inclusive' },
   { keywords: ['donate', 'donation', 'support', 'contribute'], node: 'donate' },
