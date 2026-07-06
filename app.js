@@ -218,11 +218,11 @@ function buildTree(s) {
   if (s.id === 'rvs') {
     return {
       welcome: {
-        message: `👋 Welcome to RV School!\n\nHow can I help you today?`,
+        message: `👋 Welcome to RV School!\n\nHow can I help you today<i class="ph ph-arrow-left"></i>`,
         options: mainMenuOptions('rvs'),
       },
       menu: {
-        message: `What else would you like to know about RV School?`,
+        message: `What else would you like to know about RV School<i class="ph ph-arrow-left"></i>`,
         options: mainMenuOptions('rvs'),
       },
       admissions: {
@@ -280,11 +280,11 @@ function buildTree(s) {
   if (s.id === 'rvps') {
     return {
       welcome: {
-        message: `👋 Welcome to RV Public School (ICSE)!\n\nHow can I help you today?`,
+        message: `👋 Welcome to RV Public School (ICSE)!\n\nHow can I help you today<i class="ph ph-arrow-left"></i>`,
         options: mainMenuOptions('rvps'),
       },
       menu: {
-        message: `What else would you like to know about RVPS?`,
+        message: `What else would you like to know about RVPS<i class="ph ph-arrow-left"></i>`,
         options: mainMenuOptions('rvps'),
       },
       admissions: {
@@ -342,7 +342,7 @@ function buildTree(s) {
       faq: {
         message: `❓ Frequently Asked Questions\n\nSelect a topic below:`,
         options: [
-          { label: '📘 What is ICSE?', node: 'faq_icse' },
+          { label: '📘 What is ICSE<i class="ph ph-arrow-left"></i>', node: 'faq_icse' },
           { label: '✅ Benefits of ICSE', node: 'faq_benefits' },
           { label: '🕐 School Timings', node: 'faq_timings' },
           { label: '🚌 Transport Info', node: 'faq_transport' },
@@ -351,7 +351,7 @@ function buildTree(s) {
         ],
       },
       faq_icse: {
-        message: `📘 What is ICSE?\n\nICSE (Indian Certificate of Secondary Education) is a nationally recognized board conducted by CISCE. It offers a balanced curriculum with equal emphasis on languages, sciences, mathematics, and arts.\n\nRVPS follows the ICSE syllabus from Nursery to Std 10.`,
+        message: `📘 What is ICSE<i class="ph ph-arrow-left"></i>\n\nICSE (Indian Certificate of Secondary Education) is a nationally recognized board conducted by CISCE. It offers a balanced curriculum with equal emphasis on languages, sciences, mathematics, and arts.\n\nRVPS follows the ICSE syllabus from Nursery to Std 10.`,
         options: [
           { label: '✅ Benefits of ICSE', node: 'faq_benefits' },
           { label: '← Back to FAQs', node: 'faq' },
@@ -361,7 +361,7 @@ function buildTree(s) {
       faq_benefits: {
         message: `✅ Benefits of ICSE\n\n• Comprehensive and well-rounded curriculum\n• Strong focus on English and communication skills\n• Internal assessments and project-based learning\n• Widely accepted by universities in India and abroad\n• Develops analytical thinking and problem-solving`,
         options: [
-          { label: '📘 What is ICSE?', node: 'faq_icse' },
+          { label: '📘 What is ICSE<i class="ph ph-arrow-left"></i>', node: 'faq_icse' },
           { label: '← Back to FAQs', node: 'faq' },
           backOption,
         ],
@@ -394,11 +394,11 @@ function buildTree(s) {
   if (s.id === 'rvghs') {
     return {
       welcome: {
-        message: `👋 Welcome to RV Girls High School!\n\nHow can I help you today?`,
+        message: `👋 Welcome to RV Girls High School!\n\nHow can I help you today<i class="ph ph-arrow-left"></i>`,
         options: mainMenuOptions('rvghs'),
       },
       menu: {
-        message: `What else would you like to know about RVGHS?`,
+        message: `What else would you like to know about RVGHS<i class="ph ph-arrow-left"></i>`,
         options: mainMenuOptions('rvghs'),
       },
       admissions: {
@@ -713,10 +713,10 @@ function formatText(text) {
   let formatted = text.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
   
   // Markdown links: [Text](URL)
-  formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color: #007bff; text-decoration: none; font-weight: 500;">$1</a>');
+  formatted = formatted.replace(/\[([^\]]+)\]\((https<i class="ph ph-arrow-left"></i>:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color: #007bff; text-decoration: none; font-weight: 500;">$1</a>');
 
   // Bare links (fallback for any remaining physical links not inside markdown or href)
-  formatted = formatted.replace(/(^|[^"'])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener" style="color: #007bff; text-decoration: none; font-weight: 500;">$2</a>');
+  formatted = formatted.replace(/(^|[^"'])(https<i class="ph ph-arrow-left"></i>:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener" style="color: #007bff; text-decoration: none; font-weight: 500;">$2</a>');
 
   // Newlines
   formatted = formatted.replace(/\n/g, '<br>');
@@ -744,7 +744,7 @@ function createQuickReplies(options) {
   options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'quick-reply-btn';
-    btn.textContent = opt.label;
+    btn.innerHTML = opt.label;
     btn.dataset.node = opt.node;
     btn.addEventListener('click', () => {
       const action = btn.dataset.node;
