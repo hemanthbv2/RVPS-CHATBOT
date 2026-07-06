@@ -332,7 +332,7 @@ function buildTree(s) {
         options: [backOption],
       },
       transport: {
-        message: `🚌 Transport\n\nWe offer safe bus services along select routes in South Bangalore.\n\n🔗 [Campus Life](${s.website}/campus-life/)`,
+        message: `🚌 Transport\n\nWe offer safe bus services covering a 5 km radius around the school.\n\n🔗 [Campus Life](${s.website}/campus-life/)`,
         options: [backOption],
       },
       contact: {
@@ -374,7 +374,7 @@ function buildTree(s) {
         ],
       },
       faq_transport: {
-        message: `🚌 Transport Facilities\n\nRVPS provides safe and reliable bus services covering major routes in South Bangalore. GPS-enabled buses with trained staff ensure student safety.\n\nFor route availability and fees, please contact the school office.\n📞 ${s.phone}`,
+        message: `🚌 Transport Facilities\n\nRVPS provides safe and reliable bus services covering a 5 km radius around the school. GPS-enabled buses with trained staff ensure student safety.\n\nFor route availability and fees, please contact the school office.\n📞 ${s.phone}`,
         options: [
           { label: '← Back to FAQs', node: 'faq' },
           backOption,
