@@ -8,8 +8,6 @@
 // ──────────────────────────────────────────────
 
 const SCHOOLS = {
-  },
-
   rvps: {
     id: 'rvps',
     name: 'RV Public School',
@@ -465,10 +463,10 @@ function formatText(text) {
   let formatted = text.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
   
   // Markdown links: [Text](URL)
-  formatted = formatted.replace(/\[([^\]]+)\]\((https<i class="ph ph-arrow-left"></i>:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color: #007bff; text-decoration: none; font-weight: 500;">$1</a>');
+  formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color: #007bff; text-decoration: none; font-weight: 500;">$1</a>');
 
   // Bare links (fallback for any remaining physical links not inside markdown or href)
-  formatted = formatted.replace(/(^|[^"'])(https<i class="ph ph-arrow-left"></i>:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener" style="color: #007bff; text-decoration: none; font-weight: 500;">$2</a>');
+  formatted = formatted.replace(/(^|[^"'])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener" style="color: #007bff; text-decoration: none; font-weight: 500;">$2</a>');
 
   // Newlines
   formatted = formatted.replace(/\n/g, '<br>');
